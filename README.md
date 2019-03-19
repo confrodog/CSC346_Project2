@@ -4,6 +4,8 @@ project 2 for CSC346
 topics:
 -blogs
 -test taking
+-game?
+-pokedex
 
 
 design notes:
