@@ -9,6 +9,11 @@ blackjack for CSC346
 <li>write JS for buttons and basic gameplay
 </ul>
 
+# Done:
+<ul>
+ <li> initialized EC2 instance with packages for NodeJS
+</ul>
+
 # design notes:
 <ul>
 <li>3 total servers, 2 parallel and 1 database
