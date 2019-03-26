@@ -24,4 +24,6 @@ important commands
 
 ssh -i "private key" ubuntu@ec2-instance-ip
 
-scp -i ~/Desktop/amazon.pem ~/Desktop/MS115.fa  ubuntu@ec2-54-166-128-20.compute-1.amazonaws.com:~/data/
+<del>scp -i ~/Desktop/amazon.pem ~/Desktop/MS115.fa  ubuntu@ec2-54-166-128-20.compute-1.amazonaws.com:~/data/</del>
+going to need git clone for our final project
+
