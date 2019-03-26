@@ -19,3 +19,9 @@ blackjack for CSC346
 <li>3 total servers, 2 parallel and 1 database
 <li>database holds usernames, passwords, stuff
 </ul>
+
+important commands
+
+ssh -i "private key" ubuntu@ec2-instance-ip
+
+scp -i ~/Desktop/amazon.pem ~/Desktop/MS115.fa  ubuntu@ec2-54-166-128-20.compute-1.amazonaws.com:~/data/
