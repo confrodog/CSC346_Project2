@@ -1,7 +1,7 @@
 window.onload = function(){
-    document.getElementById("anon") = startGame;
+    document.getElementById("anon").onclick = goToDealerScreen;
 }
 
-function startGame(){
+function goToDealerScreen(){
     
 }
