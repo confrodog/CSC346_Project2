@@ -90,7 +90,15 @@ function playButtonPressed(){
     betButton.onclick = start;
     let backOutButton = document.createElement("button");
     backOutButton.innerHTML = "BACK OUT";
-    backOutButton.onclick = backOut;
+
+    //We dont save stats for anon
+    if(user === "Anonomous"){
+        backOutButton.onclick = leaveButtonPressed;
+    }
+    else{
+        backOutButton.onclick = backOut;
+    }
+    
     betScreenLeft.appendChild(betButton);
     betScreenLeft.appendChild(backOutButton);
 
@@ -118,10 +126,16 @@ function playButtonPressed(){
     subPlayScreen.appendChild(betContainer);
 }
 
+//enters game and gameScreen appears with new UI
 function start(){
+    //clear screen
 
+    //create and shuffle deck
+
+    //
 }
 
+//leave the current game and update the database with new money value (if not Anon)
 function backOut(){
 
 }
