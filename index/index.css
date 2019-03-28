@@ -33,6 +33,10 @@ button {
 #homeScreen {
     text-align: center;
 }
+#anon {
+    width: 100px;
+    height: 50px;
+}
 
 /*Play Screen*/
 #welcomeDiv {
@@ -43,6 +47,7 @@ button {
 #dealerDiv {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2.5%;
     width: 20%;
     height: 20%;
 }
@@ -51,4 +56,11 @@ button {
     width: 100%;
     border-style: solid;
     border-width: 3px;
+}
+#moneyDiv {
+    text-align: center;
+}
+#UIDiv {
+    display: flex;
+    justify-content: space-evenly;
 }
