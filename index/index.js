@@ -1,7 +1,14 @@
 window.onload = function(){
-    document.getElementById("anon").onclick = goToDealerScreen;
+    document.getElementById("anon").onclick = playAnon;
 }
 
-function goToDealerScreen(){
-    
+function playAnon(){
+    //display none to homeScreen
+
+    //buildPLayScreen with Anon as name
+    buildPlayScreen("Anonomous");
+}
+
+function buildPlayScreen(name){
+
 }
