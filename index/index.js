@@ -5,11 +5,13 @@ var bet = 0;
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
+    document.getElementById("createAccountButton").onclick = createAccount;
 }
 
 function playAnon(){
     //buildPLayScreen with Anon as name
     buildPlayScreen("Anonomous", 100);
+    
 }
 
 function buildPlayScreen(name, amount){
@@ -238,4 +240,15 @@ function createAndShuffleDeck(){
         deck[rNum2] = tempCard;
     }
     return deck;
+
+}
+
+function createAccount(){
+    var user = document.getElementById("username").value;
+    var pw = document.getElementById("password").value;
+    
+    console.log(user);
+    console.log(pw);
+    
+
 }
