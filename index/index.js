@@ -1,6 +1,7 @@
 var user;
 var money;
 var currPot = 0;
+var bet = 0;
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -87,7 +88,7 @@ function playButtonPressed(){
     betScreenLeft.innerHTML = "Current Pot: $" + currPot + "<br>Your Money: $" + money + "<br><br>";
     let betButton = document.createElement("button");
     betButton.innerHTML = "BET";
-    betButton.onclick = start;
+    betButton.onclick = start; //where actual game starts
     let backOutButton = document.createElement("button");
     backOutButton.innerHTML = "BACK OUT";
 
@@ -103,6 +104,7 @@ function playButtonPressed(){
     betScreenLeft.appendChild(backOutButton);
 
     let betScreenRight = document.createElement("div");
+    betScreenRight.id = "betScreenRight";
     let betOptions = document.createElement("div");
     betOptions.id = "betOptions";
     let one = createRadioBet("1");
@@ -128,11 +130,21 @@ function playButtonPressed(){
 
 //enters game and gameScreen appears with new UI
 function start(){
-    //clear screen
+    //update screen
+    document.getElementById("welcomeHeader").innerHTML = "Hit or Check?"
+    let subPlayScreen = document.getElementById("subPlayScreen");
+    subPlayScreen.innerHTML = "";
+
+    //create new subPlayScreen
+    let currBets = document.createElement("div");
+    let cardDisplay = document.createElement("div");
 
     //create and shuffle deck
+    let deck = createAndShuffleDeck();
 
-    //
+    //deal cards to player dealer player dealer, and display them
+
+
 }
 
 //leave the current game and update the database with new money value (if not Anon)
@@ -141,32 +153,89 @@ function backOut(){
 }
 
 //make the playscreen go away and make the home screen come back
+//also reset
 function leaveButtonPressed(){
     document.getElementById("playScreen").innerHTML = "";
     document.getElementById("homeScreen").style.display = "block";
+    resetStats();
 }
 
 
 
 
-
-
-
-//helper to make bet options
+//helpers
 function createRadioBet(value){
     let tempDiv = document.createElement("div");
     let temp = document.createElement("input");
     let tempLabel = document.createElement("label");
+
     temp.type = "radio";
     temp.name = "betOptions";
     temp.value = value;
     temp.id = value;
+    temp.onclick = updateBetAndPot;
+
     tempLabel.htmlFor = value;
     tempLabel.innerHTML = "$" + value ;
 
     tempDiv.appendChild(temp);
     tempDiv.appendChild(tempLabel);
 
-
     return tempDiv;
+}
+function updateBetAndPot(){
+    bet = parseInt(this.value);
+    currPot += bet;
+    money -= bet;
+}
+function resetStats(){
+    currPot = 0;
+    bet = 0;
+}
+//want in the form "Ace of Spades, 11" or name, value
+function createAndShuffleDeck(){
+    let deck = [];
+    let suits = ["Spades", "Diamonds", "Clubs", "Hearts"];
+    let value = 0;
+    let cardName = ""
+
+    //create deck
+    for(let i = 0; i < suits.length; i++){
+        for(let j = 1; j <= 13; j++){
+            switch(j){ //to assign names and values to specific cards
+                case 1:
+                value = 11;
+                cardName = "Ace";
+                break;
+                case 11:
+                value = 10;
+                cardName = "Jack";
+                break;
+                case 12:
+                value = 10;
+                cardName = "Queen";
+                break;
+                case 13:
+                value = 10;
+                cardName = "King";
+                break;
+                default:
+                value = j;
+                cardName = j.toString();
+                break;
+            }
+            cardName = cardName + " of " + suits[i];
+            deck.push({card: cardName,worth: value});
+        }
+    }
+
+    //shuffle deck
+    for(let i = 0; i < 1000; i++){
+        let rNum1 = Math.floor(Math.random() * 52);
+        let rNum2 = Math.floor(Math.random() * 52);
+        let tempCard = deck[rNum1];
+        deck[rNum1] = deck[rNum2];
+        deck[rNum2] = tempCard;
+    }
+    return deck;
 }
