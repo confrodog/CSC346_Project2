@@ -18,7 +18,7 @@ h1, h2{
 h2 {
     margin-bottom: 2.5%;
 }
-legend, fieldset, button, #betContainer > div {
+legend, fieldset, button, #betContainer > div, #cardSubScreen > div {
     border-style: solid;
     border-width: 2px;
     border-color: black;
@@ -67,7 +67,7 @@ button {
     display: flex;
     justify-content: space-evenly;
 }
-#betContainer {
+#betContainer, #cardSubScreen {
     display: flex;
     justify-content: center;
     font-size: 15pt;

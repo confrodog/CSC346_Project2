@@ -2,6 +2,9 @@ var user;
 var money;
 var currPot = 0;
 var bet = 0;
+var deck = [];
+var playerHand = [];
+var dealerHand = [];
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -135,21 +138,41 @@ function start(){
     let subPlayScreen = document.getElementById("subPlayScreen");
     subPlayScreen.innerHTML = "";
 
-    //create new subPlayScreen
-    let currBets = document.createElement("div");
-    let cardDisplay = document.createElement("div");
-
     //create and shuffle deck
-    let deck = createAndShuffleDeck();
+    deck = createAndShuffleDeck();
+
+    //create new subPlayScreen
+    subPlayScreen.appendChild(createCardSubScreen());
 
     //deal cards to player dealer player dealer, and display them
+    dealPlayer();
+    dealDealer();
+    dealPlayer();
+    dealDealer(); //to hide dealers, probably send a boolean to say hidden
+    //game begins
+}
+function hit(){
 
+}
+function check(){
 
+}
+function dealPlayer(){
+    let playersCards = document.getElementById("playersCards");
+    let drawnCard = deck.shift();
+    playerHand.push(drawnCard);
+    playersCards.innerHTML += drawnCard.card;
+}
+function dealDealer(){
+    let dealersCards = document.getElementById("dealersCards");
+    let drawnCard = deck.shift();
+    dealerHand.push(drawnCard);
+    dealersCards.innerHTML += drawnCard.card;
 }
 
 //leave the current game and update the database with new money value (if not Anon)
 function backOut(){
-
+    // {FXIME}
 }
 
 //make the playscreen go away and make the home screen come back
@@ -238,4 +261,36 @@ function createAndShuffleDeck(){
         deck[rNum2] = tempCard;
     }
     return deck;
+}
+//creates subscreen for when they are playing the actual game
+function createCardSubScreen(){
+    let cardSubScreen = document.createElement("div");
+    cardSubScreen.id = "cardSubScreen";
+    //left side
+    let leftScreen = document.createElement("div");
+    leftScreen.innerHTML = "Current Pot: $" + currPot + "<br>Your Money: $" + money + "<br><br>";
+    let hitButton = document.createElement("button");
+    hitButton.innerHTML = "HIT";
+    hitButton.onclick = hit;
+    let checkButton = document.createElement("button");
+    checkButton.innerHTML = "CHECK";
+    checkButton.onclick = check;
+    leftScreen.appendChild(hitButton);
+    leftScreen.appendChild(checkButton);
+
+    //right side: for cards
+    let rightScreen = document.createElement("div");
+    rightScreen.id = "cardDisplay";
+    let playersCards = document.createElement("div");
+    playersCards.id = "playersCards";
+    playersCards.innerHTML = "Your Cards:<br>";
+    let dealersCards = document.createElement("div");
+    dealersCards.id = "dealersCards";
+    dealersCards.innerHTML = "Dealers Cards:<br>";
+    rightScreen.appendChild(playersCards);
+    rightScreen.appendChild(dealersCards);
+
+    cardSubScreen.appendChild(leftScreen);
+    cardSubScreen.appendChild(rightScreen);
+    return cardSubScreen;
 }
