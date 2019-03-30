@@ -11,8 +11,7 @@ blackjack for CSC346
 
  # Gameplay TO-DO:
 <ul>
-<li>make dealer go until 17
-<li>let the player chose between 11 or 1 for ace
+
 </ul>
 
 
