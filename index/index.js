@@ -1,10 +1,17 @@
-var user;
-var money;
-var currPot = 0;
-var bet = 0;
-var deck = [];
-var playerHand = [];
-var dealerHand = [];
+/*
+How to play:
+if you win, you get double your bet
+if you lose, you lose all money
+if you draw, you get money back
+if you get BlackJack, you win 1.5x your bet plus your bet
+*/
+var user; //current player
+var money; //their money from database
+var currPot = 0; //how much they can win back
+var bet = 0; //how much the player bets before hand
+var deck = []; //global deck
+var playerHand = []; //global player hand
+var dealerHand = []; //global dealer hand
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -16,6 +23,7 @@ function playAnon(){
 }
 
 function buildPlayScreen(name, amount){
+    document.getElementById("playScreen").innerHTML = ""; //if they want to play again
     user = name;
     money = amount;
     //hide homeScreen
@@ -80,7 +88,7 @@ function playButtonPressed(){
     subPlayScreen.innerHTML = "";
     document.getElementById("welcomeHeader").innerHTML = "Enter a bet, " + user;
 
-    //create new UI
+    //create play UI
     let infoH2 = document.createElement("h2");
     infoH2.id = "infoH2";
     infoH2.innerHTML = "What would you like to bet?";
@@ -95,13 +103,14 @@ function playButtonPressed(){
     let backOutButton = document.createElement("button");
     backOutButton.innerHTML = "BACK OUT";
 
-    //We dont save stats for anon
     if(user === "Anonomous"){
         backOutButton.onclick = leaveButtonPressed;
     }
     else{
         backOutButton.onclick = backOut;
     }
+    
+    
     
     betScreenLeft.appendChild(betButton);
     betScreenLeft.appendChild(backOutButton);
@@ -146,33 +155,94 @@ function start(){
 
     //deal cards to player dealer player dealer, and display them
     dealPlayer();
-    dealDealer();
+    dealDealer(false);
     dealPlayer();
-    dealDealer(); //to hide dealers, probably send a boolean to say hidden
+    dealDealer(true); //to hide dealers, probably send a boolean to say hidden
     //game begins
 }
-function hit(){
-
-}
-function check(){
-
-}
+//deals one card to player hand
 function dealPlayer(){
     let playersCards = document.getElementById("playersCards");
     let drawnCard = deck.shift();
     playerHand.push(drawnCard);
     playersCards.innerHTML += drawnCard.card + "<br>";
 }
-function dealDealer(){
+//deals one card to dealer hand, also could hide one
+function dealDealer(hidden){
     let dealersCards = document.getElementById("dealersCards");
     let drawnCard = deck.shift();
     dealerHand.push(drawnCard);
-    dealersCards.innerHTML += drawnCard.card + "<br>";
+    if(hidden){
+        dealersCards.innerHTML += "Other Card<br>";
+    }
+    else{
+        dealersCards.innerHTML += drawnCard.card + "<br>";
+    }
+}
+//when a player wants another card
+function hit(){
+    dealPlayer();
+    checkBustOrBJ();
+}
+function check(){
+    //dealer gets to go until 17 (implement later) <=================================
+    let playerScore = sumHand(playerHand);
+    let dealerScore = sumHand(dealerHand);
+    if(playerScore > dealerScore){
+        resultScreen("win");
+    }
+    else if(dealerScore > playerScore){
+        resultScreen("lose");
+    }
+    else if (dealerScore == playerScore){
+        resultScreen("tie");
+    }
+}
+//ends game if the player busts
+function checkBustOrBJ(){
+    let handSum = sumHand(playerHand);
+    if(handSum > 21){
+        resultScreen("lose");
+    }
+    else if(handSum === 21){
+        resultScreen("bj");
+    }
+}
+function resultScreen(result){
+    //clear subScreen
+    let subScreen = document.getElementById("subPlayScreen");
+    subScreen.innerHTML = "";
+    let resultTitle = document.createElement("h2");
+    let amount = 0;
+    switch(result){
+        case "bj":
+            resultTitle.innerHTML = "Congradulations on the Black Jack, you won $" + parseFloat(currPot * 2);
+            amount = parseFloat(currPot * 2);
+        break;
+        case "win":
+            resultTitle.innerHTML = "Congradulations, you won $" + parseFloat(currPot * 2);
+            amount = parseFloat(currPot * 2);
+        break;
+        case "lose":
+            resultTitle.innerHTML = "You lost to the dealer."
+            amount = 0;
+        break;
+        case "tie":
+            resultTitle.innerHTML = "You push!"
+            amount = parseFloat(currPot);
+        break;
+    }
+    resetMoney(amount);
+    subScreen.appendChild(resultTitle);
+    subScreen.appendChild(createReplayButtons());
 }
 
-//leave the current game and update the database with new money value (if not Anon)
 function backOut(){
-    // {FXIME}
+    
+}
+
+function updateDB(amount){
+    //{FIXME}
 }
 
 //make the playscreen go away and make the home screen come back
@@ -293,4 +363,37 @@ function createCardSubScreen(){
     cardSubScreen.appendChild(leftScreen);
     cardSubScreen.appendChild(rightScreen);
     return cardSubScreen;
+}
+function sumHand(hand){
+    let handSum = 0;
+    for(let i = 0; i < hand.length; i++){
+        handSum += hand[i].worth;
+    }
+    return handSum;
+}
+function createReplayButtons(){
+    let buttonDiv = document.createElement("div");
+    let playAgain = document.createElement("button");
+    playAgain.innerHTML = "Play Again?";
+    playAgain.onclick = replay;
+    let leaveButton = document.createElement("button");
+    leaveButton.innerHTML = "Leave";
+    if(user === "Anonomous"){
+        leaveButton.onclick = leaveButtonPressed;
+    }
+    else {
+        leaveButton.onclick = backOut;
+    }
+    buttonDiv.appendChild(playAgain);
+    buttonDiv.appendChild(leaveButton);
+    return buttonDiv;
+}
+function replay(){
+    document.getElementById("subPlayScreen").innerHTML = "";
+    playButtonPressed();
+}
+function resetMoney(amount){
+    currPot = 0;
+    bet = 0;
+    money += amount;
 }
