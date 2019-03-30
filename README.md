@@ -9,16 +9,13 @@ blackjack for CSC346
 <li>write JS for buttons and basic gameplay
 </ul>
 
-# Done:
+ # Gameplay TO-DO:
 <ul>
- <li> initialized EC2 instance with packages for NodeJS
+<li>make dealer go until 17
+<li>let the player chose between 11 or 1 for ace
 </ul>
 
-# design notes:
-<ul>
-<li>3 total servers, 2 parallel and 1 database
-<li>database holds usernames, passwords, stuff
-</ul>
+
 
 important commands
 
