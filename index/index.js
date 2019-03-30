@@ -11,7 +11,9 @@ var currPot = 0; //how much they can win back
 var bet = 0; //how much the player bets before hand
 var deck = []; //global deck
 var playerHand = []; //global player hand
+var playerAces = 0;
 var dealerHand = []; //global dealer hand
+var dealerAces = 0;
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -152,45 +154,66 @@ function start(){
     //create and shuffle deck
     deck = createAndShuffleDeck();
 
+    //update currPot and money
+    currPot += bet;
+    money -= bet;
+
     //create new subPlayScreen
     subPlayScreen.appendChild(createCardSubScreen());
 
     //deal cards to player dealer player dealer, and display them
-    dealPlayer();
-    dealDealer(false);
-    dealPlayer();
-    dealDealer(true); //to hide dealers, probably send a boolean to say hidden
+    dealPlayer(true);
+    dealDealer(false, true);
+    dealPlayer(true);
+    dealDealer(true, true); //to hide dealers, probably send a boolean to say hidden
+    checkPlayerBJ();
+    checkPlayerBust();
+    //update the score keeper
+    document.getElementById("playerScore").innerHTML ="Your score: "  + sumHand(playerHand);
     //game begins
 }
 //deals one card to player hand
-function dealPlayer(){
+function dealPlayer(print){
     let playersCards = document.getElementById("playersCards");
     let drawnCard = deck.shift();
+    if(drawnCard.worth === 11){
+        playerAces++;
+    }
     playerHand.push(drawnCard);
-    playersCards.innerHTML += drawnCard.card + "<br>";
+
+    if(print){
+        playersCards.innerHTML += drawnCard.card + "<br>";
+    }
 }
 //deals one card to dealer hand, also could hide one
-function dealDealer(hidden){
+function dealDealer(hidden, print){
     let dealersCards = document.getElementById("dealersCards");
     let drawnCard = deck.shift();
+    if(drawnCard.worth === 11){
+        dealerAces++;
+    }
     dealerHand.push(drawnCard);
-    if(hidden){
+    if(hidden && print){
         dealersCards.innerHTML += "Other Card<br>";
     }
-    else{
+    else if (!hidden && print){
         dealersCards.innerHTML += drawnCard.card + "<br>";
     }
 }
 //when a player wants another card
 function hit(){
-    dealPlayer();
-    checkBustOrBJ();
+    dealPlayer(true);
+    document.getElementById("playerScore").innerHTML ="Your score: "  + sumHand(playerHand);
+    checkPlayerBust();
 }
 //when the player is satisfied with current hand and is done
 function check(){
-    //dealer gets to go until 17 (implement later) <=================================
+    
+    dealerTo17();
     let playerScore = sumHand(playerHand);
     let dealerScore = sumHand(dealerHand);
+    console.log(playerScore);
+    console.log(dealerScore);
     if(playerScore > dealerScore){
         resultScreen("win");
     }
@@ -217,8 +240,16 @@ function resultScreen(result){
             resultTitle.innerHTML = "Congratulations, you won $" + parseFloat(currPot * 2);
             amount = parseFloat(currPot * 2);
         break;
+        case "dealerBust":
+            resultTitle.innerHTML = "Dealer busted, you won $" + parseFloat(currPot * 2);
+            amount = parseFloat(currPot * 2);
+        break;
         case "lose":
             resultTitle.innerHTML = "You lost to the dealer."
+            amount = 0;
+        break;
+        case "bust":
+            resultTitle.innerHTML = "You busted."
             amount = 0;
         break;
         case "tie":
@@ -245,7 +276,7 @@ function updateDB(amount){
 function leaveButtonPressed(){
     document.getElementById("playScreen").innerHTML = "";
     document.getElementById("homeScreen").style.display = "block";
-    resetStats();
+    reset();
 }
 
 
@@ -262,7 +293,7 @@ function createRadioBet(value){
     temp.name = "betOptions";
     temp.value = value;
     temp.id = value;
-    temp.onclick = updateBetAndPot;
+    temp.onclick = updateBet;
 
     tempLabel.htmlFor = value;
     tempLabel.innerHTML = "$" + value ;
@@ -292,16 +323,17 @@ function createCardsPlayed(){
     return cardsPlayed;
 }
 //updates bet and currPot when a radio button is pressed
-function updateBetAndPot(){
+function updateBet(){
     bet = parseInt(this.value);
-    currPot += bet;
-    money -= bet;
 }
-function reset(){
+function reset(amount){
+    money += amount;
     currPot = 0;
-    bet = 0;
+    bet = 0; 
     playerHand = [];
     dealerHand = [];
+    playerAces = 0;
+    dealerAces = 0;
     createAndShuffleDeck();
 }
 //want in the form "Ace of Spades, 11" or name, value
@@ -352,7 +384,7 @@ function createAndShuffleDeck(){
     return deck;
 
 }
-//creates subscreen for when they are playing the actual game
+//creates subscreen for when they START the actual game
 function createCardSubScreen(){
     let cardSubScreen = document.createElement("div");
     cardSubScreen.id = "cardSubScreen";
@@ -374,10 +406,15 @@ function createCardSubScreen(){
     let playersCards = document.createElement("div");
     playersCards.id = "playersCards";
     playersCards.innerHTML = "Your Cards:<br>";
+
+    let playerScore = document.createElement("div");
+    playerScore.id = "playerScore";
+    
     let dealersCards = document.createElement("div");
     dealersCards.id = "dealersCards";
     dealersCards.innerHTML = "Dealers Cards:<br>";
     rightScreen.appendChild(playersCards);
+    rightScreen.appendChild(playerScore);
     rightScreen.appendChild(dealersCards);
 
     cardSubScreen.appendChild(leftScreen);
@@ -416,21 +453,59 @@ function replay(){
     playButtonPressed();
 }
 //function to update the monies for replay
-function resetMoney(amount){
-    currPot = 0;
-    bet = 0;
-    money += amount;
-}
+// function resetMoney(amount){
+//     currPot = 0;
+//     bet = 0;
+//     money += amount;
+// }
 //ends game if the player busts or when player has BJ
-function checkBustOrBJ(){
+function checkPlayerBust(){
     let handSum = sumHand(playerHand);
     if(handSum > 21){
-        resultScreen("lose");
+        if(playerAces > 0){
+            //find ace and change worth to 1
+            changeAce(playerHand);
+            playerAces--;
+        }
+        else{
+            resultScreen("bust");
+        }
     }
-    else if(handSum === 21){
+}
+function changeAce(hand){
+    for(let i = 0; i < hand.length; i++){
+        if(hand[i].worth === 11){
+            hand[i].worth = 1;
+        }
+    }
+}
+function checkPlayerBJ(){
+    let handSum = sumHand(playerHand);
+    if(handSum === 21){
         resultScreen("bj");
     }
 
+}
+//make the dealer draw until he has greater than or equal to 17
+function dealerTo17(){
+    while(sumHand(dealerHand) < 17 && sumHand(dealerHand) <= sumHand(playerHand)){
+        dealDealer();
+        checkDealer();
+    }
+}
+//helper for dealerTo17
+function checkDealer(){
+    if(sumHand(dealerHand) > 21) {
+        if(dealerAces > 0){
+            //find ace and change worth to 1
+            changeAce(dealerHand);
+            dealerAces--;
+        }
+        else{
+            resultScreen("dealerBust");
+        }
+        
+    }
 }
 
 function createAccount(){
@@ -441,3 +516,4 @@ function createAccount(){
     console.log(pw);
     
 }
+
