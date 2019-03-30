@@ -184,6 +184,7 @@ function hit(){
     dealPlayer();
     checkBustOrBJ();
 }
+//when the player is satisfied with current hand and is done
 function check(){
     //dealer gets to go until 17 (implement later) <=================================
     let playerScore = sumHand(playerHand);
@@ -198,29 +199,20 @@ function check(){
         resultScreen("tie");
     }
 }
-//ends game if the player busts
-function checkBustOrBJ(){
-    let handSum = sumHand(playerHand);
-    if(handSum > 21){
-        resultScreen("lose");
-    }
-    else if(handSum === 21){
-        resultScreen("bj");
-    }
-}
 function resultScreen(result){
     //clear subScreen
     let subScreen = document.getElementById("subPlayScreen");
     subScreen.innerHTML = "";
     let resultTitle = document.createElement("h2");
+    let cardsPlayed = createCardsPlayed();
     let amount = 0;
     switch(result){
         case "bj":
-            resultTitle.innerHTML = "Congradulations on the Black Jack, you won $" + parseFloat(currPot * 2);
+            resultTitle.innerHTML = "Congratulations on the Black Jack, you won $" + parseFloat(currPot * 2);
             amount = parseFloat(currPot * 2);
         break;
         case "win":
-            resultTitle.innerHTML = "Congradulations, you won $" + parseFloat(currPot * 2);
+            resultTitle.innerHTML = "Congratulations, you won $" + parseFloat(currPot * 2);
             amount = parseFloat(currPot * 2);
         break;
         case "lose":
@@ -232,11 +224,12 @@ function resultScreen(result){
             amount = parseFloat(currPot);
         break;
     }
-    resetMoney(amount);
+    reset(amount);
     subScreen.appendChild(resultTitle);
+    subScreen.appendChild(cardsPlayed);
     subScreen.appendChild(createReplayButtons());
 }
-
+//called when a user is done playing, should update database with money
 function backOut(){
     
 }
@@ -257,6 +250,7 @@ function leaveButtonPressed(){
 
 
 //helpers
+//helps create radio buttons
 function createRadioBet(value){
     let tempDiv = document.createElement("div");
     let temp = document.createElement("input");
@@ -276,14 +270,37 @@ function createRadioBet(value){
 
     return tempDiv;
 }
+//
+function createCardsPlayed(){
+    let cardsPlayed = document.createElement("div");
+    cardsPlayed.id = "cardsPlayed";
+    let playerDiv = document.createElement("div");
+    let dealerDiv = document.createElement("div");
+
+    playerDiv.innerHTML = "Your Cards: <br>";
+    for(let i = 0; i < playerHand.length;i++){
+        playerDiv.innerHTML += playerHand[i].card + "<br>";
+    }
+    dealerDiv.innerHTML = "Dealers Cards: <br>";
+    for(let i = 0; i < dealerHand.length;i++){
+        dealerDiv.innerHTML += dealerHand[i].card + "<br>";
+    }
+    cardsPlayed.appendChild(dealerDiv);
+    cardsPlayed.appendChild(playerDiv);
+    return cardsPlayed;
+}
+//updates bet and currPot when a radio button is pressed
 function updateBetAndPot(){
     bet = parseInt(this.value);
     currPot += bet;
     money -= bet;
 }
-function resetStats(){
+function reset(){
     currPot = 0;
     bet = 0;
+    playerHand = [];
+    dealerHand = [];
+    createAndShuffleDeck();
 }
 //want in the form "Ace of Spades, 11" or name, value
 function createAndShuffleDeck(){
@@ -364,6 +381,7 @@ function createCardSubScreen(){
     cardSubScreen.appendChild(rightScreen);
     return cardSubScreen;
 }
+//sums up worth of hand
 function sumHand(hand){
     let handSum = 0;
     for(let i = 0; i < hand.length; i++){
@@ -371,6 +389,7 @@ function sumHand(hand){
     }
     return handSum;
 }
+//creates replay buttons for result screen
 function createReplayButtons(){
     let buttonDiv = document.createElement("div");
     let playAgain = document.createElement("button");
@@ -388,12 +407,24 @@ function createReplayButtons(){
     buttonDiv.appendChild(leaveButton);
     return buttonDiv;
 }
+//relaunches the play screen
 function replay(){
     document.getElementById("subPlayScreen").innerHTML = "";
     playButtonPressed();
 }
+//function to update the monies for replay
 function resetMoney(amount){
     currPot = 0;
     bet = 0;
     money += amount;
+}
+//ends game if the player busts or when player has BJ
+function checkBustOrBJ(){
+    let handSum = sumHand(playerHand);
+    if(handSum > 21){
+        resultScreen("lose");
+    }
+    else if(handSum === 21){
+        resultScreen("bj");
+    }
 }
