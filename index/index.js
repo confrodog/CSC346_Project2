@@ -161,13 +161,13 @@ function dealPlayer(){
     let playersCards = document.getElementById("playersCards");
     let drawnCard = deck.shift();
     playerHand.push(drawnCard);
-    playersCards.innerHTML += drawnCard.card;
+    playersCards.innerHTML += drawnCard.card + "<br>";
 }
 function dealDealer(){
     let dealersCards = document.getElementById("dealersCards");
     let drawnCard = deck.shift();
     dealerHand.push(drawnCard);
-    dealersCards.innerHTML += drawnCard.card;
+    dealersCards.innerHTML += drawnCard.card + "<br>";
 }
 
 //leave the current game and update the database with new money value (if not Anon)
