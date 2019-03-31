@@ -549,6 +549,24 @@ function signinAccount(){
 		});
 }
 
+/**
+ * testMongo needed to make sure mongodb working correctly before final implementation.
+ */
+function testMongo() {
+    var url = "http://localhost:3000";
+      fetch(url)
+          .then(checkStatus)
+          .then(function(responseText) {
+              var descrip = JSON.parse(responseText);
+        console.log("testMongo Working");
+        console.log(descrip["title"]);
+        document.getElementById("movies").innerHTML = "title: "+descrip["title"];
+          })
+          .catch(function(error) {
+          });
+      //addInfo(thisDivFolder);
+  }
+
 /*
 checkStatus will return a special message depending on the error type that
 is given.
