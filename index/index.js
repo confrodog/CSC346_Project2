@@ -14,6 +14,7 @@ var playerHand = []; //global player hand
 var playerAces = 0;
 var dealerHand = []; //global dealer hand
 var dealerAces = 0;
+var done = false;
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -203,26 +204,30 @@ function dealDealer(hidden, print){
 //when a player wants another card
 function hit(){
     dealPlayer(true);
-    document.getElementById("playerScore").innerHTML ="Your score: "  + sumHand(playerHand);
     checkPlayerBust();
+    document.getElementById("playerScore").innerHTML ="Your score: "  + sumHand(playerHand);
+    
 }
 //when the player is satisfied with current hand and is done
 function check(){
     
     dealerTo17();
-    let playerScore = sumHand(playerHand);
-    let dealerScore = sumHand(dealerHand);
-    console.log(playerScore);
-    console.log(dealerScore);
-    if(playerScore > dealerScore){
-        resultScreen("win");
+    if(done == false){
+        let playerScore = sumHand(playerHand);
+        let dealerScore = sumHand(dealerHand);
+        console.log(playerScore);
+        console.log(dealerScore);
+        if(playerScore > dealerScore){
+            resultScreen("win");
+        }
+        else if(dealerScore > playerScore){
+            resultScreen("lose");
+        }
+        else if (dealerScore == playerScore){
+            resultScreen("tie");
+        }
     }
-    else if(dealerScore > playerScore){
-        resultScreen("lose");
-    }
-    else if (dealerScore == playerScore){
-        resultScreen("tie");
-    }
+    done = false;
 }
 function resultScreen(result){
     //clear subScreen
@@ -334,6 +339,7 @@ function reset(amount){
     dealerHand = [];
     playerAces = 0;
     dealerAces = 0;
+    done = false;
     createAndShuffleDeck();
 }
 //want in the form "Ace of Spades, 11" or name, value
@@ -450,6 +456,7 @@ function createReplayButtons(){
 //relaunches the play screen
 function replay(){
     document.getElementById("subPlayScreen").innerHTML = "";
+    
     playButtonPressed();
 }
 //function to update the monies for replay
@@ -469,6 +476,7 @@ function checkPlayerBust(){
         }
         else{
             resultScreen("bust");
+            
         }
     }
 }
@@ -488,10 +496,12 @@ function checkPlayerBJ(){
 }
 //make the dealer draw until he has greater than or equal to 17
 function dealerTo17(){
-    while(sumHand(dealerHand) < 17 && sumHand(dealerHand) <= sumHand(playerHand)){
-        dealDealer();
+    while((sumHand(dealerHand) < 17) && (sumHand(dealerHand) <= sumHand(playerHand) && done == false)){
+        dealDealer(false, false);
+        //doesnt return after check dealer
         checkDealer();
     }
+    
 }
 //helper for dealerTo17
 function checkDealer(){
@@ -503,6 +513,7 @@ function checkDealer(){
         }
         else{
             resultScreen("dealerBust");
+            done = true;
         }
         
     }
