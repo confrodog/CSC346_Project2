@@ -17,11 +17,13 @@ var dealerAces = 0;
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
+    document.getElementById("createAccountButton").onclick = createAccount;
 }
 
 function playAnon(){
     //buildPLayScreen with Anon as name
     buildPlayScreen("Anonomous", 100);
+    
 }
 
 function buildPlayScreen(name, amount){
@@ -380,6 +382,7 @@ function createAndShuffleDeck(){
         deck[rNum2] = tempCard;
     }
     return deck;
+
 }
 //creates subscreen for when they START the actual game
 function createCardSubScreen(){
@@ -481,6 +484,7 @@ function checkPlayerBJ(){
     if(handSum === 21){
         resultScreen("bj");
     }
+
 }
 //make the dealer draw until he has greater than or equal to 17
 function dealerTo17(){
@@ -503,3 +507,13 @@ function checkDealer(){
         
     }
 }
+
+function createAccount(){
+    var user = document.getElementById("username").value;
+    var pw = document.getElementById("password").value;
+    
+    console.log(user);
+    console.log(pw);
+    
+}
+
