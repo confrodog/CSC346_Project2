@@ -1,13 +1,12 @@
 var http = require('http');
 var fs = require('fs');
+var express = require('express');
 
-fs.readFile('./index/index.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(9000);
+var app = express();
+var port = 9000;
+
+app.get('/', function(req, res){
+    res.send('homepage');
 });
+
+app.listen(port);
