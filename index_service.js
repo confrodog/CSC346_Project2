@@ -2,6 +2,25 @@
 (function () {
     "use strict";
 var fs = require('fs');
+/*
+MAKES IT APPEAR ON HTTP
+
+var path = require('path');
+var express = require('express');
+
+var app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+var port = 9000;
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.listen(port);
+console.log("Now listening on port: " + port);
+*/
 const express = require("express");
 const app = express();
 app.use(express.static('public'));
@@ -13,19 +32,6 @@ app.use(function(req, res, next) {
                "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-/*
-fs.readFile('./index/index.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(9000);
-});*/
-
 
 // reads data asynchronously fromt he passed in file name
 // returns the contents of the file as a string
@@ -69,3 +75,4 @@ app.get('/', function (req, res) {
 
 app.listen(3000);
 })();
+
