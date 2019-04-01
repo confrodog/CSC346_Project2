@@ -6,8 +6,6 @@ var express = require('express');
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.bodyParser());
-app.use(express.logger("short"));
 
 var port = 9000;
 
