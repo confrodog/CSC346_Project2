@@ -14,19 +14,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-/*
-fs.readFile('./index/index.html', function (err, html) {
-    if (err) {
-        throw err; 
-    }       
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(9000);
-});*/
-
-
 // reads data asynchronously fromt he passed in file name
 // returns the contents of the file as a string
 function read_file(file_name) {
