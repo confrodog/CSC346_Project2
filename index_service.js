@@ -49,7 +49,7 @@ app.get('/signin', function (req, res) {
 	  
 	var conn = mysql.createConnection({
 		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-		database: "accounts",
+		database: "cloud_blackjack",
 		user: "cloud_blackjack",
 		password: "iliketurtles",
 		debug: "true"
