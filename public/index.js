@@ -549,7 +549,7 @@ function createAccount(){
 		body : JSON.stringify(userJSON)
 	};
 
-	var url = "http://localhost:3000";
+	var url = "ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000";
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
