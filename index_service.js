@@ -35,9 +35,9 @@ app.post('/', jsonParser, function (req, res) {
 	});
 
 	var query = "INSERT INTO accounts (username, password, screen_name, money)"
-				+ "SELECT * FROM (SELECT '" + username + "', '" + password + "', "
+				+ " SELECT * FROM (SELECT '" + username + "', '" + password + "', "
 				+ "'" + screen_name + "', 500) AS tmp"
-				+ "WHERE NOT EXISTS ("
+				+ " WHERE NOT EXISTS ("
 					+ "SELECT username FROM accounts WHERE username = '" + username +"'"
 				+ ") LIMIT 1;"
 
