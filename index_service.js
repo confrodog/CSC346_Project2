@@ -44,7 +44,7 @@ app.post('/', jsonParser, function (req, res) {
 				res.send(err);
 			}
 			console.log("successfully added " + username);
-			res.send({"username": username, "password": password, "screen_name": screen_name});
+			res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
 		})
 	})
 
