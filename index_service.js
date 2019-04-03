@@ -41,18 +41,18 @@ app.post('/', jsonParser, function (req, res) {
 					+ "SELECT username FROM accounts WHERE username = '" + username +"'"
 				+ ") LIMIT 1;"
 
-	console.log("account to be added: " + query);
-	// conn.connect(function(err){
-	// 	if (err) throw err;
-	// 	conn.query(query, function(err, result){
-	// 		if (err) {
-	// 			res.status(400);
-	// 			res.send(err);
-	// 		}
-	// 		console.log("successfully added " + username);
-	// 		res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
-	// 	})
-	// })
+	//console.log("account to be added: " + query);
+	conn.connect(function(err){
+		if (err) throw err;
+		conn.query(query, function(err, result){
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log("successfully added " + username);
+			res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
+		})
+	})
 
 
 })
