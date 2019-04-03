@@ -30,6 +30,7 @@ window.onload = function(){
 
 function playAnon(){
     //buildPLayScreen with Anon as name
+    clearInputs();
     buildPlayScreen("Anonomous", 100);
     
 }
@@ -39,6 +40,7 @@ function buildPlayScreen(name, amount){
     user = name;
     money = amount;
     //hide homeScreen
+    clearInputs();
     document.getElementById("homeScreen").style.display = "none";
     document.getElementById("playScreen").style.display = "block";
 
@@ -321,6 +323,16 @@ function leaveButtonPressed(){
 
 
 //helpers
+//clears inputs
+function clearInputs(){
+    document.getElementById("createUser").value = "";
+    document.getElementById("createPW").value = "";
+    document.getElementById("createScreen").value = "";
+    document.getElementById("signUser").value = "";
+    document.getElementById("signPW").value = "";
+    
+}
+
 //helps create radio buttons
 function createRadioBet(value){
     let tempDiv = document.createElement("div");
