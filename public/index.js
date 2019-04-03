@@ -569,10 +569,6 @@ function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     var screen = document.getElementById("createScreen").value;
-
-    console.log(user);
-    console.log(pw);
-
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
 		method : 'POST',
@@ -587,7 +583,6 @@ function createAccount(){
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
-            console.log(JSON.parse(responseText));
             let jsonResponse = JSON.parse(responseText);
             buildPlayScreen(jsonResponse.screen_name, jsonResponse.money);
 		})
@@ -612,34 +607,13 @@ function signinAccount(){
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-
-            //console.log(JSON.parse(responseText));
             let jsonResponse = JSON.parse(responseText);
-            //console.log(jsonResponse[0].money);
             buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
         })
 		.catch(function(error) {
 			console.log(error);
 		});
 }
-
-/**
- * testMongo needed to make sure mongodb working correctly before final implementation.
- */
-function testMongo() {
-    var url = "http://localhost:3000";
-      fetch(url)
-          .then(checkStatus)
-          .then(function(responseText) {
-              var descrip = JSON.parse(responseText);
-        console.log("testMongo Working");
-        console.log(descrip["title"]);
-        document.getElementById("movies").innerHTML = "title: "+descrip["title"];
-          })
-          .catch(function(error) {
-          });
-      //addInfo(thisDivFolder);
-  }
 
 /*
 checkStatus will return a special message depending on the error type that
@@ -648,6 +622,8 @@ is given.
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response.text();
+    }else if(response.status == 400){
+        alert("Username already taken, try another!");
     } else if (response.status == 410) {
     	return Promise.reject(new Error("Sorry, the state you requested does not contain any information."));
     } else if (response.status == 404){
