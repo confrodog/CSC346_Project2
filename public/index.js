@@ -575,7 +575,7 @@ function createAccount(){
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
-            console.log(responseText);
+            console.log(JSON.parse(responseText));
             let jsonResponse = JSON.parse(responseText);
             buildPlayScreen(jsonResponse.screen_name, jsonResponse.money);
 		})
