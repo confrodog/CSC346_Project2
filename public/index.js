@@ -574,8 +574,8 @@ function fetchTable(){
             let newRow = document.createElement("tr");
             let userD = document.createElement("td");
             let moneyD = document.createElement("td");
-            userD.innerHTML = responseText[i][0].username;
-            moneyD.innerHTML = responseText[i][0].money;
+            userD.innerHTML = responseText[0][i].username;
+            moneyD.innerHTML = responseText[0][i].money;
             newRow.appendChild(userD);
             newRow.appendChild(moneyD);
             table.appendChild(newRow);
