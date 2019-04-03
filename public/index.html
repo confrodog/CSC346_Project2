@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHjBxS_giNTqzcY384uul2BaUxR60XM6DJ3qz2hBkpryHarRflzQ">
+    <script type="text/javascript" src="index.js"></script>
+    <title>Black Jack!</title>
+</head>
+<body>
+    <div id="homeScreen">
+        <div id="headerDiv">
+            <h1>Welcome to Black Jack!</h1>
+        </div>
+        <div id="login">
+            <fieldset>
+                <legend>Create Account</legend>
+                Username:<input type="text" id="createUser"><br>
+                Password:<input type="text" id="createPW"><br>
+                Screen Name: <input type="text"><br>
+                <button id="createAccountButton">Submit</button>
+            </fieldset>
+            <fieldset>
+                <legend>Sign-in</legend>
+                Username:<input type="text" id="signUser"><br>
+                Password:<input type="text" id="signPW"><br>
+                <button id="signinButton">Submit</button>
+            </fieldset>
+        </div>
+        <p>OR</p>
+        <button id="anon">Play As Anon</button>
+        <br><hr>
+        <p>Today's Biggest Winners:</p>
+        <table id="winners"></table>
+        <p style="margin-left: auto; margin-right: auto">
+            Black Jack! is played like standard blackjack would be. It is single player against the dealer. The
+            goal is to rack up as many bucks as you can and earn a spot on the leaderboard!
+        </p>
+    </div>
+    <div id="playScreen"></div>
+</body>
+</html>
