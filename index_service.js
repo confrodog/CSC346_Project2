@@ -13,18 +13,6 @@ app.use(function(req, res, next) {
                "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-// reads data asynchronously fromt he passed in file name
-// returns the contents of the file as a string
-function read_file(file_name) {
-	var file= 0;
-	try {
-	    file = fs.readFileSync(file_name, 'utf8');
-	} catch(e) {
-	    console.log('Error:', e.stack);
-	}
-	return file;
-}
 // allows us to access prAameters easily
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -46,10 +34,17 @@ app.post('/', jsonParser, function (req, res) {
 		debug: "true"
 	});
 
-	var query = "INSERT INTO 'accounts' (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', " + screen_name + "', 500);";
-	console.log("account to be added: " + query);
+	var query = "INSERT INTO 'accounts' (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', '" + screen_name + "', 500);";
+	//console.log("account to be added: " + query);
 	conn.connect(function(err){
-		console.log("connected to create account on db");
+		if (err) throw err;
+		conn.query(query, function(err){
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log("successfully added " + username);
+		})
 	})
 
 
