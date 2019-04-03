@@ -570,12 +570,13 @@ function fetchTable(){
     fetch(url)
     .then(checkStatus)
     .then(function(responseText){
+        let jsonResponse = JSON.parse(responseText);
         for(let i = 0; i < responseText.length; i++){
             let newRow = document.createElement("tr");
             let userD = document.createElement("td");
             let moneyD = document.createElement("td");
-            userD.innerHTML = responseText[i].username;
-            moneyD.innerHTML = responseText[i].money;
+            userD.innerHTML = jsonResponse[i].username;
+            moneyD.innerHTML = jsonResponse[i].money;
             newRow.appendChild(userD);
             newRow.appendChild(moneyD);
             table.appendChild(newRow);
