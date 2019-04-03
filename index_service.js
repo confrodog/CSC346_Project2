@@ -47,7 +47,7 @@ app.get('/signin', function (req, res) {
 	console.log(user);
 	console.log(pass);
 	
-	var query = "SELECT * FROM accounts WHERE username = " + user + " AND password = " + pass + ";";
+	var query = "SELECT * FROM accounts WHERE username = '" + user + "' AND password = '" + pass + "'";
 
 	var conn = mysql.createConnection({
 		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
