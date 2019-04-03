@@ -323,6 +323,7 @@ function leaveButtonPressed(){
     document.getElementById("playScreen").innerHTML = "";
     document.getElementById("homeScreen").style.display = "block";
     reset();
+    fetchTable();
 }
 
 
