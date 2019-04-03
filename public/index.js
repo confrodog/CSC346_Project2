@@ -26,6 +26,7 @@ window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
     document.getElementById("createAccountButton").onclick = createAccount;
     document.getElementById("signinButton").onclick = signinAccount;
+    fetchTable();
 }
 
 function playAnon(){
