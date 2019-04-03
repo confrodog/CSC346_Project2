@@ -53,7 +53,7 @@ app.post('/', jsonParser, function (req, res) {
 
 })
 
-app.get('/signin', function (req, res) {
+app.get('/', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	var file_name = "messages.txt";
 
