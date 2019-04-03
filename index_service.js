@@ -43,16 +43,30 @@ app.post('/', jsonParser, function (req, res) {
 app.post('/update', jsonParser, function(req,res) {
 	
 	console.log("entered update on server");
-	// var jsonObj = req.body;
-	// var money = jsonObj.money;
-	// var conn = mysql.createConnection({
-	// 	host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-	// 	database: "cloud_blackjack",
-	// 	user: "cloud_blackjack",
-	// 	password: "iliketurtles",
-	// 	debug: "true"
-	// });
+	var jsonObj = req.body;
+	var user = jsonObj.username;
+	var money = jsonObj.money;
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
 
+	var query = "UPDATE accounts SET money = '" + money + "' WHERE username = '" + user + "'";
+
+	conn.connect(function(err){
+		if(err) throw err;
+		console.log("connected!");
+		conn.query(query, function (err, result, fields) {
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log(result.affectedRows + " record(s) updated");
+		});
+	})
 })
 
 app.get('/signin', function (req, res) {

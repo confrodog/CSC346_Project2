@@ -286,7 +286,7 @@ function backOut(){
 
 function updateDB(amount){
 
-    var moneyJSON = {money: amount};
+    var moneyJSON = {username: user, money: amount};
     const fetchOptions = {
 		method : 'POST',
 		headers : {
