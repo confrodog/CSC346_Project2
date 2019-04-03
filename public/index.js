@@ -566,7 +566,7 @@ function createAccount(){
 user within the server. Right now, this is all a test.
 */
 function signinAccount(){
-    var user = document.getElementById("signUser").value;
+    var usern = document.getElementById("signUser").value;
     var pw = document.getElementById("signPW").value;
     
     console.log("signin: "+user);
