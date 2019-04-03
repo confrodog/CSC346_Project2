@@ -38,13 +38,13 @@ app.post('/', jsonParser, function (req, res) {
 	//console.log("account to be added: " + query);
 	conn.connect(function(err){
 		if (err) throw err;
-		conn.query(query, function(err){
+		conn.query(query, function(err, result){
 			if (err) {
 				res.status(400);
 				res.send(err);
 			}
 			console.log("successfully added " + username);
-			res.send(jsonObj);
+			res.send(result);
 		})
 	})
 
