@@ -569,7 +569,7 @@ function checkDealer(){
 //will fetch top 10 players on page startup
 function fetchTable(){
     let tb = document.getElementById("tableRows");
-    tableRows.innerHTML = "";
+    tb.innerHTML = "";
 
     let url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/winners";
 
@@ -585,7 +585,7 @@ function fetchTable(){
             moneyD.innerHTML = jsonResponse[i].money;
             newRow.appendChild(userD);
             newRow.appendChild(moneyD);
-            tableRows.appendChild(newRow);
+            tb.appendChild(newRow);
         }
     })
     .catch(function(err){
