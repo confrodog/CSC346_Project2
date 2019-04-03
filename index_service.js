@@ -142,8 +142,8 @@ app.get('/winners', function(req,res){
 				res.status(400);
 				res.send(err);
 			}
-			console.log(result);
-			res.send(result);
+			console.log(JSON.stringify(result));
+			res.send(JSON.stringify(result));
 		});
 	})
 
