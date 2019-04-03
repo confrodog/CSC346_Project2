@@ -617,7 +617,7 @@ function createAccount(){
 		.then(checkStatus)
 		.then(function(responseText) {
             let jsonResponse = JSON.parse(responseText);
-            buildPlayScreen(jsonResponse.screen_name, jsonResponse.money);
+            buildPlayScreen(jsonResponse.username, jsonResponse.money);
 		})
 		.catch(function(error) {
 			console.log(error);
@@ -642,7 +642,7 @@ function signinAccount(){
             if(jsonResponse.length === 0){
                 alert("incorrect username or password, try again");
             }
-            buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
+            buildPlayScreen(jsonResponse[0].username, jsonResponse[0].money);
         })
 		.catch(function(error) {
 			console.log(error);
