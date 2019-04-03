@@ -34,7 +34,7 @@ app.post('/', jsonParser, function (req, res) {
 		debug: "true"
 	});
 
-	var query = "INSERT INTO 'accounts' (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', '" + screen_name + "', 500);";
+	var query = "INSERT INTO accounts (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', '" + screen_name + "', 500);";
 	//console.log("account to be added: " + query);
 	conn.connect(function(err){
 		if (err) throw err;
