@@ -58,6 +58,13 @@ app.get('/signin', function (req, res) {
 	conn.connect(function (err){
 		if(err) throw err;
 		console.log("connected!");
+		conn.query(query, function (err, result, fields) {
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			res.send(result);
+		});
 	})
 
 })
