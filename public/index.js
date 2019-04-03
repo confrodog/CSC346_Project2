@@ -624,6 +624,7 @@ function checkStatus(response) {
         return response.text();
     }else if(response.status == 400){
         alert("Username already taken, try another!");
+        clearInputs();
     } else if (response.status == 410) {
     	return Promise.reject(new Error("Sorry, the state you requested does not contain any information."));
     } else if (response.status == 404){
