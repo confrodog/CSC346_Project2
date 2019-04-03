@@ -276,11 +276,37 @@ function resultScreen(result){
 }
 //called when a user is done playing, should update database with money
 function backOut(){
-    
+    document.getElementById("playScreen").innerHTML = "";
+
+    updateDB(money);
+
+    document.getElementById("homeScreen").style.display = "block";
+    reset();
 }
 
 function updateDB(amount){
-    //{FIXME}
+
+    var moneyJSON = {money: amount};
+    const fetchOptions = {
+		method : 'POST',
+		headers : {
+			'Accept': 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		body : JSON.stringify(moneyJSON)
+	};
+
+	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/update";
+	fetch(url, fetchOptions)
+		.then(checkStatus)
+		.then(function(responseText) {
+            console.log(responseText);
+            
+		})
+		.catch(function(error) {
+			console.log(error);
+   		});
+
 }
 
 //make the playscreen go away and make the home screen come back
@@ -466,12 +492,7 @@ function replay(){
     
     playButtonPressed();
 }
-//function to update the monies for replay
-// function resetMoney(amount){
-//     currPot = 0;
-//     bet = 0;
-//     money += amount;
-// }
+
 //ends game if the player busts or when player has BJ
 function checkPlayerBust(){
     let handSum = sumHand(playerHand);

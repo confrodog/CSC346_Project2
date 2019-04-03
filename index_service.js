@@ -39,6 +39,22 @@ app.post('/', jsonParser, function (req, res) {
 
 })
 
+//for updating money
+app.post('/update', jsonParser, function(req,res) {
+	
+	console.log("entered update on server");
+	// var jsonObj = req.body;
+	// var money = jsonObj.money;
+	// var conn = mysql.createConnection({
+	// 	host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+	// 	database: "cloud_blackjack",
+	// 	user: "cloud_blackjack",
+	// 	password: "iliketurtles",
+	// 	debug: "true"
+	// });
+
+})
+
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 	
