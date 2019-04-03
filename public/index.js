@@ -284,8 +284,9 @@ function backOut(){
     updateDB(money);
 
     document.getElementById("homeScreen").style.display = "block";
-    reset();
     fetchTable();
+    reset();
+    
 }
 
 function updateDB(amount){
@@ -633,7 +634,7 @@ function signinAccount(){
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-            console.log(responseText);
+            
             let jsonResponse = JSON.parse(responseText);
             buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
         })
