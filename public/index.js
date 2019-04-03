@@ -37,10 +37,11 @@ function playAnon(){
 }
 
 function buildPlayScreen(name, amount){
-    console.log(user + ": " + money);
+    
     document.getElementById("playScreen").innerHTML = ""; //if they want to play again
     user = name;
     money = amount;
+    console.log(user + ": " + money);
     //hide homeScreen
     clearInputs();
     document.getElementById("homeScreen").style.display = "none";
