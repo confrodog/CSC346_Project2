@@ -26,7 +26,7 @@ app.post('/', jsonParser, function (req, res) {
 
     res.send("username recieved");
 
-})
+});
 
 app.get('/', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -37,7 +37,7 @@ app.get('/', function (req, res) {
 
 	var jsonObj = {username: user, password: pass};
 	res.send(JSON.stringify(jsonObj));
-})
+});
 
 app.listen(3000);
 })();

@@ -572,7 +572,7 @@ function signinAccount(){
     console.log("signin: "+usern);
     console.log("signin: "+pw);
     
-    var url = "http://localhost:3000?user=" + usern + "&pass=" + pw;
+    var url = "http://localhost:3000;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
