@@ -34,19 +34,25 @@ app.post('/', jsonParser, function (req, res) {
 		debug: "true"
 	});
 
-	var query = "INSERT INTO accounts (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', '" + screen_name + "', 500);";
-	//console.log("account to be added: " + query);
-	conn.connect(function(err){
-		if (err) throw err;
-		conn.query(query, function(err, result){
-			if (err) {
-				res.status(400);
-				res.send(err);
-			}
-			console.log("successfully added " + username);
-			res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
-		})
-	})
+	var query = "INSERT INTO accounts (username, password, screen_name, money)"
+				+ "SELECT * FROM (SELECT '" + username + "', '" + password + "', "
+				+ "'" + screen_name + "', 500) AS tmp"
+				+ "WHERE NOT EXISTS ("
+					+ "SELECT username FROM accounts WHERE username = '" + username +"'"
+				+ ") LIMIT 1;"
+
+	console.log("account to be added: " + query);
+	// conn.connect(function(err){
+	// 	if (err) throw err;
+	// 	conn.query(query, function(err, result){
+	// 		if (err) {
+	// 			res.status(400);
+	// 			res.send(err);
+	// 		}
+	// 		console.log("successfully added " + username);
+	// 		res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
+	// 	})
+	// })
 
 
 })
