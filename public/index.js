@@ -37,6 +37,7 @@ function playAnon(){
 }
 
 function buildPlayScreen(name, amount){
+    console.log(user + ": " + money);
     document.getElementById("playScreen").innerHTML = ""; //if they want to play again
     user = name;
     money = amount;
