@@ -533,13 +533,13 @@ to the server side program.
 */
 
 function createAccount(){
-    var user = document.getElementById("createUser").value;
+    var usern = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     
-    console.log(user);
+    console.log(usern);
     console.log(pw);
 
-    var userJSON = {"username":user,"password":pw};
+    var userJSON = {"username":usern,"password":pw};
     const fetchOptions = {
 		method : 'POST',
 		headers : {
@@ -566,13 +566,13 @@ function createAccount(){
 user within the server. Right now, this is all a test.
 */
 function signinAccount(){
-    var user = document.getElementById("signUser").value;
+    var usern = document.getElementById("signUser").value;
     var pw = document.getElementById("signPW").value;
     
-    console.log("signin: "+user);
+    console.log("signin: "+usern);
     console.log("signin: "+pw);
     
-    var url = "http://localhost:3000";
+    var url = "http://localhost:3000?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
