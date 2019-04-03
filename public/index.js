@@ -576,9 +576,9 @@ function signinAccount(){
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-      //clearDivs();
-      var comments = JSON.parse(responseText);
-      console.log(comments);
+            console.log(responseText);
+      //var comments = JSON.parse(responseText);
+      
       //messageBoard(comments);
 		})
 		.catch(function(error) {
