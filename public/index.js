@@ -281,6 +281,7 @@ function resultScreen(result){
 }
 //called when a user is done playing, should update database with money
 function backOut(){
+    console.log(user + ": " + money + "backed out");
     document.getElementById("playScreen").innerHTML = "";
 
     updateDB(money);
