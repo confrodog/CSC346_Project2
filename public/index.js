@@ -572,15 +572,14 @@ function signinAccount(){
     console.log("signin: "+user);
     console.log("signin: "+pw);
     
-    var url = "http://localhost:3000";
+    var url = "http://localhost:3000/signin?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-      //clearDivs();
-      var comments = JSON.parse(responseText);
-      console.log(comments);
-      //messageBoard(comments);
-		})
+
+            console.log(JSON.parse(responseText));
+        
+        })
 		.catch(function(error) {
 			console.log(error);
 		});
