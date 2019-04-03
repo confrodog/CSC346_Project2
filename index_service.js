@@ -33,8 +33,10 @@ app.get('/', function (req, res) {
 
   //fileContent = file_to_line(file_name);
   	var user = req.query.user;
+	var pass = req.query.pass;
 
-	console.log(user);
+	var jsonObj = {username: user, password: pass};
+	res.send(JSON.stringify(jsonObj));
 })
 
 app.listen(3000);
