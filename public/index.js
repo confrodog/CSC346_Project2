@@ -639,7 +639,9 @@ function signinAccount(){
 		.then(function(responseText) {
             
             let jsonResponse = JSON.parse(responseText);
-            console.log(jsonResponse);
+            if(jsonResponse.length === 0){
+                alert("incorrect username or password, try again");
+            }
             buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
         })
 		.catch(function(error) {
