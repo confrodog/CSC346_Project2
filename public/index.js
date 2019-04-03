@@ -289,7 +289,7 @@ function backOut(){
     document.getElementById("homeScreen").style.display = "block";
     fetchTable();
     reset();
-    
+    location.reload();
 }
 
 function updateDB(amount){
