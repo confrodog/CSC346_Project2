@@ -32,10 +32,9 @@ app.get('/', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
 
   //fileContent = file_to_line(file_name);
-  	var jsonObj = req.body;
+  	var user = req.query.user;
 
-  	res.send(JSON.stringify(jsonObj));
-
+	console.log(user);
 })
 
 app.listen(3000);
