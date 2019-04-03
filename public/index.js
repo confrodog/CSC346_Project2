@@ -285,6 +285,7 @@ function backOut(){
 
     document.getElementById("homeScreen").style.display = "block";
     reset();
+    fetchTable();
 }
 
 function updateDB(amount){
