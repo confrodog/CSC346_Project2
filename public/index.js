@@ -576,7 +576,8 @@ function createAccount(){
 		.then(checkStatus)
 		.then(function(responseText) {
             console.log(responseText);
-            
+            let jsonResponse = JSON.parse(responseText);
+            buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
 		})
 		.catch(function(error) {
 			console.log(error);
