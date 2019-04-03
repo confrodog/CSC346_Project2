@@ -533,13 +533,13 @@ to the server side program.
 */
 
 function createAccount(){
-    var usern = document.getElementById("createUser").value;
+    var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     
-    console.log(usern);
+    console.log(user);
     console.log(pw);
 
-    var userJSON = {"username":usern,"password":pw};
+    var userJSON = {"username":user,"password":pw};
     const fetchOptions = {
 		method : 'POST',
 		headers : {
@@ -549,7 +549,7 @@ function createAccount(){
 		body : JSON.stringify(userJSON)
 	};
 
-	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000";
+	var url = "http://localhost:3000";
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
@@ -566,19 +566,19 @@ function createAccount(){
 user within the server. Right now, this is all a test.
 */
 function signinAccount(){
-    var usern = document.getElementById("signUser").value;
+    var user = document.getElementById("signUser").value;
     var pw = document.getElementById("signPW").value;
     
-    console.log("signin: "+usern);
+    console.log("signin: "+user);
     console.log("signin: "+pw);
     
     var url = "http://localhost:3000";
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-            console.log(responseText);
-      //var comments = JSON.parse(responseText);
-      
+      //clearDivs();
+      var comments = JSON.parse(responseText);
+      console.log(comments);
       //messageBoard(comments);
 		})
 		.catch(function(error) {
