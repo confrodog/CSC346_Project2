@@ -564,7 +564,7 @@ function checkDealer(){
 
 //will fetch top 10 players on page startup
 function fetchTable(){
-    let tableRows = document.getElementById("tableRows");
+    let tb = document.getElementById("tableRows");
     tableRows.innerHTML = "";
 
     let url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/winners";

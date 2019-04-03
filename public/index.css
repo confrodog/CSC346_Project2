@@ -75,7 +75,7 @@ button {
 #playerScore {
     font-weight: bold;
 }
-table, #tableRows{
+table{
     text-align: center;
     margin-right: auto;
     margin-left: auto;
