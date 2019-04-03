@@ -578,9 +578,10 @@ function signinAccount(){
 		.then(checkStatus)
 		.then(function(responseText) {
 
-            console.log(JSON.parse(responseText));
+            //console.log(JSON.parse(responseText));
             let jsonResponse = JSON.parse(responseText);
-            console.log(jsonResponse[0].money);
+            //console.log(jsonResponse[0].money);
+            buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
         })
 		.catch(function(error) {
 			console.log(error);
