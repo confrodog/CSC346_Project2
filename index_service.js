@@ -94,8 +94,6 @@ app.get('/signin', function (req, res) {
 	
 	var user = req.query.user;
 	var pass = req.query.pass;
-	console.log(user);
-	console.log(pass);
 	
 	var query = "SELECT * FROM accounts WHERE username = '" + user + "' AND password = '" + pass + "'";
 
