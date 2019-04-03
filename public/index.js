@@ -26,19 +26,24 @@ window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
     document.getElementById("createAccountButton").onclick = createAccount;
     document.getElementById("signinButton").onclick = signinAccount;
+    fetchTable();
 }
 
 function playAnon(){
     //buildPLayScreen with Anon as name
+    clearInputs();
     buildPlayScreen("Anonomous", 100);
     
 }
 
 function buildPlayScreen(name, amount){
+    
     document.getElementById("playScreen").innerHTML = ""; //if they want to play again
     user = name;
     money = amount;
+    console.log(user + ": " + money);
     //hide homeScreen
+    clearInputs();
     document.getElementById("homeScreen").style.display = "none";
     document.getElementById("playScreen").style.display = "block";
 
@@ -276,11 +281,40 @@ function resultScreen(result){
 }
 //called when a user is done playing, should update database with money
 function backOut(){
-    
+    console.log(user + ": " + money + "backed out");
+    document.getElementById("playScreen").innerHTML = "";
+
+    updateDB(money);
+
+    document.getElementById("homeScreen").style.display = "block";
+    fetchTable();
+    reset();
+    location.reload();
 }
 
 function updateDB(amount){
-    //{FIXME}
+
+    var moneyJSON = {username: user, money: amount};
+    const fetchOptions = {
+		method : 'POST',
+		headers : {
+			'Accept': 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		body : JSON.stringify(moneyJSON)
+	};
+
+	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/update";
+	fetch(url, fetchOptions)
+		.then(checkStatus)
+		.then(function(responseText) {
+            console.log(responseText);
+            
+		})
+		.catch(function(error) {
+			console.log(error);
+   		});
+
 }
 
 //make the playscreen go away and make the home screen come back
@@ -295,6 +329,16 @@ function leaveButtonPressed(){
 
 
 //helpers
+//clears inputs
+function clearInputs(){
+    document.getElementById("createUser").value = "";
+    document.getElementById("createPW").value = "";
+    document.getElementById("createScreen").value = "";
+    document.getElementById("signUser").value = "";
+    document.getElementById("signPW").value = "";
+    
+}
+
 //helps create radio buttons
 function createRadioBet(value){
     let tempDiv = document.createElement("div");
@@ -466,12 +510,7 @@ function replay(){
     
     playButtonPressed();
 }
-//function to update the monies for replay
-// function resetMoney(amount){
-//     currPot = 0;
-//     bet = 0;
-//     money += amount;
-// }
+
 //ends game if the player busts or when player has BJ
 function checkPlayerBust(){
     let handSum = sumHand(playerHand);
@@ -527,6 +566,33 @@ function checkDealer(){
     }
 }
 
+//will fetch top 10 players on page startup
+function fetchTable(){
+    let tb = document.getElementById("tableRows");
+    tableRows.innerHTML = "";
+
+    let url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/winners";
+
+    fetch(url)
+    .then(checkStatus)
+    .then(function(responseText){
+        let jsonResponse = JSON.parse(responseText);
+        for(let i = 0; i < responseText.length; i++){
+            let newRow = document.createElement("tr");
+            let userD = document.createElement("td");
+            let moneyD = document.createElement("td");
+            userD.innerHTML = jsonResponse[i].username;
+            moneyD.innerHTML = jsonResponse[i].money;
+            newRow.appendChild(userD);
+            newRow.appendChild(moneyD);
+            tableRows.appendChild(newRow);
+        }
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
 
 /* createAccount will take the info from the sign-in div and send it
 to the server side program. 
@@ -535,11 +601,8 @@ to the server side program.
 function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
-    
-    console.log(user);
-    console.log(pw);
-
-    var userJSON = {"username":user,"password":pw};
+    var screen = document.getElementById("createScreen").value;
+    var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
 		method : 'POST',
 		headers : {
@@ -549,12 +612,12 @@ function createAccount(){
 		body : JSON.stringify(userJSON)
 	};
 
-	var url = "http://localhost:3000";
+	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000";
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
-            console.log(responseText);
-            
+            let jsonResponse = JSON.parse(responseText);
+            buildPlayScreen(jsonResponse.screen_name, jsonResponse.money);
 		})
 		.catch(function(error) {
 			console.log(error);
@@ -566,43 +629,25 @@ function createAccount(){
 user within the server. Right now, this is all a test.
 */
 function signinAccount(){
-    var user = document.getElementById("signUser").value;
+    var usern = document.getElementById("signUser").value;
     var pw = document.getElementById("signPW").value;
     
-    console.log("signin: "+user);
-    console.log("signin: "+pw);
-    
-    var url = "http://localhost:3000";
+    //will have to replace with current ec2 instance every initialization
+    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/signin?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
-      //clearDivs();
-      var comments = JSON.parse(responseText);
-      console.log(comments);
-      //messageBoard(comments);
-		})
+            
+            let jsonResponse = JSON.parse(responseText);
+            if(jsonResponse.length === 0){
+                alert("incorrect username or password, try again");
+            }
+            buildPlayScreen(jsonResponse[0].screen_name, jsonResponse[0].money);
+        })
 		.catch(function(error) {
 			console.log(error);
 		});
 }
-
-/**
- * testMongo needed to make sure mongodb working correctly before final implementation.
- */
-function testMongo() {
-    var url = "http://localhost:3000";
-      fetch(url)
-          .then(checkStatus)
-          .then(function(responseText) {
-              var descrip = JSON.parse(responseText);
-        console.log("testMongo Working");
-        console.log(descrip["title"]);
-        document.getElementById("movies").innerHTML = "title: "+descrip["title"];
-          })
-          .catch(function(error) {
-          });
-      //addInfo(thisDivFolder);
-  }
 
 /*
 checkStatus will return a special message depending on the error type that
@@ -611,6 +656,9 @@ is given.
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response.text();
+    }else if(response.status == 400){
+        alert("Username already taken, try another!");
+        clearInputs();
     } else if (response.status == 410) {
     	return Promise.reject(new Error("Sorry, the state you requested does not contain any information."));
     } else if (response.status == 404){

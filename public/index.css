@@ -75,3 +75,8 @@ button {
 #playerScore {
     font-weight: bold;
 }
+table{
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}

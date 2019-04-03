@@ -18,14 +18,14 @@
             <fieldset>
                 <legend>Create Account</legend>
                 Username:<input type="text" id="createUser"><br>
-                Password:<input type="text" id="createPW"><br>
-                Screen Name: <input type="text"><br>
+                Password:<input type="password" id="createPW"><br>
+                Screen Name: <input type="text" id="createScreen"><br>
                 <button id="createAccountButton">Submit</button>
             </fieldset>
             <fieldset>
                 <legend>Sign-in</legend>
                 Username:<input type="text" id="signUser"><br>
-                Password:<input type="text" id="signPW"><br>
+                Password:<input type="password" id="signPW"><br>
                 <button id="signinButton">Submit</button>
             </fieldset>
         </div>
@@ -33,7 +33,17 @@
         <button id="anon">Play As Anon</button>
         <br><hr>
         <p>Today's Biggest Winners:</p>
-        <table id="winners"></table>
+        <table id="winners">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="tableRows">
+
+            </tbody>
+        </table>
         <p style="margin-left: auto; margin-right: auto">
             Black Jack! is played like standard blackjack would be. It is single player against the dealer. The
             goal is to rack up as many bucks as you can and earn a spot on the leaderboard!

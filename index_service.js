@@ -1,28 +1,8 @@
 //var http = require('http');
 (function () {
     "use strict";
-var fs = require('fs');
-/*
-MAKES IT APPEAR ON HTTP
-
-var path = require('path');
-var express = require('express');
-
-var app = express();
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-var port = 9000;
-
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-});
-
-app.listen(port);
-console.log("Now listening on port: " + port);
-*/
-
 const express = require("express");
+var mysql = require('mysql');
 const app = express();
 app.use(express.static('public'));
 
@@ -33,18 +13,6 @@ app.use(function(req, res, next) {
                "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-// reads data asynchronously fromt he passed in file name
-// returns the contents of the file as a string
-function read_file(file_name) {
-	var file= 0;
-	try {
-	    file = fs.readFileSync(file_name, 'utf8');
-	} catch(e) {
-	    console.log('Error:', e.stack);
-	}
-	return file;
-}
 // allows us to access prAameters easily
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -54,26 +22,130 @@ app.post('/', jsonParser, function (req, res) {
 
     var jsonObj = req.body;
     console.log(jsonObj);
+	var username = jsonObj.username;
+	var password = jsonObj.password;
+	var screen_name = jsonObj.screen_name;
 
-    res.send("username recieved");
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
+
+	var query = "INSERT INTO accounts (username, password, screen_name, money) VALUES ('" 
+				+ username + "', '" + password + "', '" + screen_name + "', 500);";
+	// var query = "INSERT INTO accounts (username, password, screen_name, money)"
+	// 			+ " SELECT * FROM (SELECT '" + username + "', '" + password + "', "
+	// 			+ "'" + screen_name + "', 500) AS tmp"
+	// 			+ " WHERE NOT EXISTS ("
+	// 				+ "SELECT username FROM accounts WHERE username = '" + username +"'"
+	// 			+ ") LIMIT 1;"
+
+	//console.log("account to be added: " + query);
+	conn.connect(function(err){
+		if (err) throw err;
+		conn.query(query, function(err, result){
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log("successfully added " + username);
+			res.send({"username": username, "password": password, "screen_name": screen_name, "money": 500});
+		})
+	})
+
 
 })
 
-app.get('/', function (req, res) {
+//for updating money
+app.post('/update', jsonParser, function(req,res) {
+	
+	console.log("entered update on server");
+	var jsonObj = req.body;
+	var user = jsonObj.username;
+	var money = jsonObj.money;
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
+
+	var query = "UPDATE accounts SET money = '" + money + "' WHERE username = '" + user + "'";
+
+	conn.connect(function(err){
+		if(err) throw err;
+		console.log("connected!");
+		conn.query(query, function (err, result, fields) {
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log(result.affectedRows + " record(s) updated");
+		});
+	})
+})
+
+app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	var file_name = "messages.txt";
+	
+	var user = req.query.user;
+	var pass = req.query.pass;
+	
+	var query = "SELECT * FROM accounts WHERE username = '" + user + "' AND password = '" + pass + "'";
 
-  //fileContent = file_to_line(file_name);
-  var jsonObj = "json_object_test";
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
 
-  res.send(JSON.stringify(jsonObj));
-	if(file_name == "") {
-		res.status(410);
-		res.send("File was not found");
-	}
+	conn.connect(function (err){
+		if(err) throw err;
+		console.log("connected!");
+		conn.query(query, function (err, result, fields) {
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			res.send(result);
+		});
+	})
+
+})
+
+app.get('/winners', function(req,res){
+	res.header("Access-Control-Allow-Origin", "*");
+
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
+
+	var query = "SELECT username, money FROM accounts ORDER BY money DESC LIMIT 10";
+
+	conn.connect(function (err){
+		if(err) throw err;
+		console.log("connected!");
+		conn.query(query, function (err, result, fields) {
+			if (err) {
+				res.status(400);
+				res.send(err);
+			}
+			console.log(JSON.stringify(result));
+			res.send(JSON.stringify(result));
+		});
+	})
 
 })
 
 app.listen(3000);
 })();
-
