@@ -21,6 +21,7 @@ var dealerHand = []; //global dealer hand
 var dealerAces = 0;
 var done = false;
 
+
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
     document.getElementById("createAccountButton").onclick = createAccount;
