@@ -569,10 +569,10 @@ function signinAccount(){
     var usern = document.getElementById("signUser").value;
     var pw = document.getElementById("signPW").value;
     
-    console.log("signin: "+user);
+    console.log("signin: "+usern);
     console.log("signin: "+pw);
     
-    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com?user=" + usern + "&pass=" + pw;
+    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
