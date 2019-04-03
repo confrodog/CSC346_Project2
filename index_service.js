@@ -55,16 +55,24 @@ app.post('/', jsonParser, function (req, res) {
 
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-	var file_name = "messages.txt";
+	
+	var user = req.query.user;
+	var pass = req.query.pass;
+	console.log(user);
+	console.log(pass);
+	  
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "accounts",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
 
-  //fileContent = file_to_line(file_name);
-  var jsonObj = "json_object_test";
-
-  res.send(JSON.stringify(jsonObj));
-	if(file_name == "") {
-		res.status(410);
-		res.send("File was not found");
-	}
+	conn.connect(function (err){
+		if(err) throw err;
+		console.log("connected!");
+	})
 
 })
 

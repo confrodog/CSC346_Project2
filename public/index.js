@@ -572,6 +572,7 @@ function signinAccount(){
     console.log("signin: "+usern);
     console.log("signin: "+pw);
     
+    //will have to replace with current ec2 instance every initialization
     var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/signin?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
