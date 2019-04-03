@@ -579,7 +579,8 @@ function signinAccount(){
 		.then(function(responseText) {
 
             console.log(JSON.parse(responseText));
-        
+            let jsonResponse = JSON.parse(responseText);
+            console.log(jsonResponse[0].money);
         })
 		.catch(function(error) {
 			console.log(error);
