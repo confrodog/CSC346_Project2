@@ -34,8 +34,24 @@ app.post('/', jsonParser, function (req, res) {
 
     var jsonObj = req.body;
     console.log(jsonObj);
+	var username = jsonObj.username;
+	var password = jsonObj.password;
+	var screen_name = jsonObj.screen_name;
 
-    res.send("username recieved");
+	var conn = mysql.createConnection({
+		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
+		database: "cloud_blackjack",
+		user: "cloud_blackjack",
+		password: "iliketurtles",
+		debug: "true"
+	});
+
+	var query = "INSERT INTO 'accounts' (username, password, screen_name, money) VALUES ('" + username + "', '" + password + "', " + screen_name + "', 500);";
+	console.log("account to be added: " + query);
+	conn.connect(function(err){
+		console.log("connected to create account on db");
+	})
+
 
 })
 

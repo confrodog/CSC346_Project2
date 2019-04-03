@@ -556,11 +556,12 @@ to the server side program.
 function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
-    
+    var screen = document.getElementById("createScreen").value;
+
     console.log(user);
     console.log(pw);
 
-    var userJSON = {"username":user,"password":pw};
+    var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
 		method : 'POST',
 		headers : {
