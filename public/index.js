@@ -572,7 +572,7 @@ function signinAccount(){
     console.log("signin: "+usern);
     console.log("signin: "+pw);
     
-    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000?user=" + usern + "&pass=" + pw;
+    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/signin?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {
