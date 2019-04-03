@@ -560,6 +560,31 @@ function checkDealer(){
     }
 }
 
+//will fetch top 10 players on page startup
+function fetchTable(){
+    let table = document.getElementById("winners");
+
+    let url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/winners";
+
+    fetch(url)
+    .then(checkStatus)
+    .then(function(responseText){
+        for(let i = 0; i < responseText.length; i++){
+            let newRow = document.createElement("tr");
+            let userD = document.createElement("td");
+            let moneyD = document.createElement("td");
+            userD.innerHTML = responseText[i].username;
+            moneyD.innerHTML = responseText[i].money;
+            newRow.appendChild(userD);
+            newRow.appendChild(moneyD);
+            table.appendChild(newRow);
+        }
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
 
 /* createAccount will take the info from the sign-in div and send it
 to the server side program. 
