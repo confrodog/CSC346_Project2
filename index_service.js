@@ -6,6 +6,10 @@ var mysql = require('mysql');
 const app = express();
 app.use(express.static('public'));
 
+var DBinfo = require("./public/connection");
+//name of current EC2 instance
+var serverAddress = 0;
+
 // so that we can run on the localhost without errors
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -17,6 +21,7 @@ app.use(function(req, res, next) {
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 console.log('web service started');
+console.log(DBinfo);
 
 app.post('/', jsonParser, function (req, res) {
 
@@ -43,7 +48,6 @@ app.post('/', jsonParser, function (req, res) {
 	// 				+ "SELECT username FROM accounts WHERE username = '" + username +"'"
 	// 			+ ") LIMIT 1;"
 
-	//console.log("account to be added: " + query);
 	conn.connect(function(err){
 		if (err) throw err;
 		conn.query(query, function(err, result){

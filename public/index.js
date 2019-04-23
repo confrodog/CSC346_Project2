@@ -21,6 +21,7 @@ var dealerHand = []; //global dealer hand
 var dealerAces = 0;
 var done = false;
 
+//url for EC2 instance
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -669,8 +670,5 @@ function checkStatus(response) {
         response.statusText));
     }
 }
-
-
-
 })();
 
