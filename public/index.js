@@ -22,6 +22,7 @@ var dealerAces = 0;
 var done = false;
 
 //url for EC2 instance
+var ec2 = "ec2-54-215-192-104.us-west-1.compute.amazonaws.com:3000";
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;
@@ -305,7 +306,7 @@ function updateDB(amount){
 		body : JSON.stringify(moneyJSON)
 	};
 
-	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/update";
+	var url = ec2 + "/update";
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
@@ -573,7 +574,7 @@ function fetchTable(){
     let tb = document.getElementById("tableRows");
     tb.innerHTML = "";
 
-    let url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/winners";
+    let url = ec2 + "/winners";
 
     fetch(url)
     .then(checkStatus)
@@ -614,7 +615,7 @@ function createAccount(){
 		body : JSON.stringify(userJSON)
 	};
 
-	var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000";
+	var url = ec2;
 	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
@@ -635,7 +636,7 @@ function signinAccount(){
     var pw = document.getElementById("signPW").value;
     
     //will have to replace with current ec2 instance every initialization
-    var url = "http://ec2-52-53-181-134.us-west-1.compute.amazonaws.com:3000/signin?user=" + usern + "&pass=" + pw;
+    var url = ec2 + "/signin?user=" + usern + "&pass=" + pw;
 	fetch(url)
 		.then(checkStatus)
 		.then(function(responseText) {

@@ -8,7 +8,7 @@ app.use(express.static('public'));
 
 var DBinfo = require("./public/connection");
 //name of current EC2 instance
-var serverAddress = 0;
+var serverAddress = "";
 
 // so that we can run on the localhost without errors
 app.use(function(req, res, next) {
@@ -32,10 +32,10 @@ app.post('/', jsonParser, function (req, res) {
 	var screen_name = jsonObj.screen_name;
 
 	var conn = mysql.createConnection({
-		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-		database: "cloud_blackjack",
-		user: "cloud_blackjack",
-		password: "iliketurtles",
+		host: DBinfo.host, //address of RDS
+		database: DBinfo.database,
+		user: DBinfo.user,
+		password: DBinfo.password,
 		debug: "true"
 	});
 
@@ -71,10 +71,10 @@ app.post('/update', jsonParser, function(req,res) {
 	var user = jsonObj.username;
 	var money = jsonObj.money;
 	var conn = mysql.createConnection({
-		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-		database: "cloud_blackjack",
-		user: "cloud_blackjack",
-		password: "iliketurtles",
+		host: DBinfo.host, //address of RDS
+		database: DBinfo.database,
+		user: DBinfo.user,
+		password: DBinfo.password,
 		debug: "true"
 	});
 
@@ -102,10 +102,10 @@ app.get('/signin', function (req, res) {
 	var query = "SELECT * FROM accounts WHERE username = '" + user + "' AND password = '" + pass + "'";
 
 	var conn = mysql.createConnection({
-		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-		database: "cloud_blackjack",
-		user: "cloud_blackjack",
-		password: "iliketurtles",
+		host: DBinfo.host, //address of RDS
+		database: DBinfo.database,
+		user: DBinfo.user,
+		password: DBinfo.password,
 		debug: "true"
 	});
 
@@ -127,10 +127,10 @@ app.get('/winners', function(req,res){
 	res.header("Access-Control-Allow-Origin", "*");
 
 	var conn = mysql.createConnection({
-		host: "cloud-bj-db.cgggvckznsew.us-west-1.rds.amazonaws.com", //address of RDS
-		database: "cloud_blackjack",
-		user: "cloud_blackjack",
-		password: "iliketurtles",
+		host: DBinfo.host, //address of RDS
+		database: DBinfo.database,
+		user: DBinfo.user,
+		password: DBinfo.password,
 		debug: "true"
 	});
 
