@@ -22,7 +22,7 @@ var dealerAces = 0;
 var done = false;
 
 //url for EC2 instance
-var ec2 = "http://ec2-54-215-192-104.us-west-1.compute.amazonaws.com:3000";
+var ec2 = "http://ec2-18-144-57-44.us-west-1.compute.amazonaws.com:3000";
 
 window.onload = function(){
     document.getElementById("anon").onclick = playAnon;

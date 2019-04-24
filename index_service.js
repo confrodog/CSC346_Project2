@@ -7,8 +7,6 @@ const app = express();
 app.use(express.static('public'));
 
 var DBinfo = require("./public/connection");
-//name of current EC2 instance
-var serverAddress = "";
 
 // so that we can run on the localhost without errors
 app.use(function(req, res, next) {
@@ -21,7 +19,7 @@ app.use(function(req, res, next) {
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 console.log('web service started');
-console.log(DBinfo);
+console.log(DBinfo.user);
 
 app.post('/', jsonParser, function (req, res) {
 
