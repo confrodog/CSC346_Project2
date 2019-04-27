@@ -1,12 +1,18 @@
-//var http = require('http');
 (function () {
     "use strict";
 const express = require("express");
-var mysql = require('mysql');
+const mysql = require('mysql');
 const app = express();
 app.use(express.static('public'));
 
-var DBinfo = require("./public/connection");
+const DBinfo = require("./public/connection");
+const upload = require("./services/file-upload");
+const singleUpload = upload.single("image");
+
+// allows us to access prAameters easily
+const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
+console.log('web service started');
 
 // so that we can run on the localhost without errors
 app.use(function(req, res, next) {
@@ -15,11 +21,8 @@ app.use(function(req, res, next) {
                "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-// allows us to access prAameters easily
-const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-console.log('web service started');
-console.log(DBinfo.user);
+
+
 
 app.post('/', jsonParser, function (req, res) {
 
@@ -90,6 +93,10 @@ app.post('/update', jsonParser, function(req,res) {
 		});
 	})
 })
+
+app.post(
+
+)
 
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");

@@ -34,7 +34,7 @@ window.onload = function(){
 function playAnon(){
     //buildPLayScreen with Anon as name
     clearInputs();
-    buildPlayScreen("Anonomous", 100);
+    buildPlayScreen("Anonymous", 100);
     
 }
 
