@@ -94,9 +94,12 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post(
+app.post('/image-upload', function(req, res){
+	singleUpload(req, res, function(err){
 
-)
+		return res.json({'imageUrl': req.file.location});
+	});
+});
 
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
