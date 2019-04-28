@@ -4,7 +4,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 
 const DBinfo = require("../public/connection");
-console.log(DBInfo.accessKeyID);
+console.log(DBinfo.accessKeyID);
 aws.config.update({
     accessKeyId: DBinfo.accessKeyID,
     secretAccessKey: DBinfo.secretAccessKey,
