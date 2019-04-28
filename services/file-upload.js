@@ -33,7 +33,7 @@ var upload = multer({
       cb(null, {fieldName: 'TESTING_METADATA'});
     },
     key: function (req, file, cb) {
-      cb(null, req.file);
+      cb(null, req.file.filename);
     }
   })
 })
