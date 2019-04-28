@@ -13,6 +13,7 @@ aws.config.update({
 
 const s3 = new aws.S3({ /* ... */ })
  
+//to filter out any files that arent images
 const fileFilter = function(req,file,cb){
     if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
         cb(null, true);

@@ -600,11 +600,13 @@ function fetchTable(){
 /* createAccount will take the info from the sign-in div and send it
 to the server side program. 
 */
-
+/*
 function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     var screen = document.getElementById("createScreen").value;
+
+
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
 		method : 'POST',
@@ -627,6 +629,44 @@ function createAccount(){
    		});
 }
 
+*/
+
+async function createAccount(){
+    var user = document.getElementById("createUser").value;
+    var pw = document.getElementById("createPW").value;
+    var screen = document.getElementById("createScreen").value;
+    var file = document.getElementById("avatar").files[0];
+
+    //post picture first
+    await postPicture(file);
+
+    //post user info to database
+    var userJSON = {"username":user,"password":pw, "screen_name":screen};
+    const fetchOptions = {
+		method : 'POST',
+		headers : {
+			'Accept': 'application/json',
+			'Content-Type' : 'application/json'
+		},
+		body : JSON.stringify(userJSON)
+	};
+
+	var url = ec2;
+	fetch(url, fetchOptions)
+		.then(checkStatus)
+		.then(function(responseText) {
+            let jsonResponse = JSON.parse(responseText);
+            buildPlayScreen(jsonResponse.username, jsonResponse.money);
+		})
+		.catch(function(error) {
+			console.log(error);
+   		});
+}
+
+async function postPicture(file){
+    let url = ec2 + "/image-upload";
+    await fetch(url, {method: "POST", body: file}).then(checkStatus).catch(function(e){console.log(e);});
+}
 
 /* signinAccount will request json objects in order to find the
 user within the server. Right now, this is all a test.
