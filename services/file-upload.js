@@ -4,7 +4,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 
 const DBinfo = require("../public/connection");
- 
+console.log(DBInfo.accessKeyID);
 aws.config.update({
     accessKeyId: DBinfo.accessKeyID,
     secretAccessKey: DBinfo.secretAccessKey,
@@ -17,6 +17,7 @@ var upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'cloud-bj-bucket',
+    acl: 'public-read',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: 'TESTING_METADATA'});
     },
