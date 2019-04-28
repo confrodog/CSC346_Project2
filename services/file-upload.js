@@ -24,7 +24,7 @@ const fileFilter = function(req,file,cb){
 
 
 var upload = multer({
-    fileFilter = fileFilter,
+    fileFilter: fileFilter,
   storage: multerS3({
     s3: s3,
     bucket: 'cloud-bj-bucket',
