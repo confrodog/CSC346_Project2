@@ -96,7 +96,7 @@ app.post('/update', jsonParser, function(req,res) {
 
 app.post('/image-upload', function(req, res){
 	singleUpload(req, res, function(err){
-
+		console.log(req);
 		if(err){
 			return res.status(404).send(err.message);
 		}
