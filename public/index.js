@@ -636,7 +636,7 @@ async function createAccount(){
     var pw = document.getElementById("createPW").value;
     var screen = document.getElementById("createScreen").value;
     var file = document.getElementById("avatar").files[0];
-
+    console.log(file);
     //post picture first
     await postPicture(file);
 
