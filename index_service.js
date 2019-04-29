@@ -94,14 +94,16 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', function(req, res){
-	singleUpload(req, res, function(err){
-		console.log(req.file);
-		if(err){
-			return res.status(404).send(err.message);
-		}
-		return res.json({'imageUrl': req.file.location});
-	});
+app.post('/image-upload', upload.single('avatar'), (req, res) => {
+    if (req.file) {
+        console.log('Uploading file...');
+        var filename = req.file.filename;
+        var uploadStatus = 'File Uploaded Successfully';
+    } else {
+        console.log('No File Uploaded');
+        var filename = 'FILE NOT UPLOADED';
+        var uploadStatus = 'File Upload Failed';
+    }
 });
 
 app.get('/signin', function (req, res) {
