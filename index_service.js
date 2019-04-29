@@ -2,11 +2,12 @@
     "use strict";
 const express = require("express");
 const mysql = require('mysql');
+const multer = require('multer');
 const app = express();
 app.use(express.static('public'));
 
 const DBinfo = require("./public/connection");
-const upload = require("./services/file-upload");
+const upload = multer({ dest: './uploads/' });//require("./services/file-upload");
 const singleUpload = upload.single("image");
 
 // allows us to access prAameters easily
