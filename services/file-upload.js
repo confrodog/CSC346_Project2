@@ -35,7 +35,7 @@ var upload = multer({
     },
     key: function (req, file, cb) {
       console.log(req);
-      cb(null, req.file.filename);
+      cb(null, Date.now.toString());
     }
   })
 })
