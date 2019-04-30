@@ -95,7 +95,7 @@ app.post('/update', jsonParser, function(req,res) {
 
 app.post('/image-upload', singleUpload,function(req, res) {
 	console.log(req.file);
-	return res.json({'imageUrl': req.file.location});
+	//return res.json({'imageUrl': req.file.location});
 	// singleUpload(req, res, function(err, some) {
 	//   if (err) {
 	// 	return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });

@@ -631,7 +631,7 @@ function createAccount(){
 
 */
 
-function createAccount(){
+async function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     var screen = document.getElementById("createScreen").value;
