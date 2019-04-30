@@ -638,7 +638,7 @@ function createAccount(){
     var file = document.getElementById("avatar").files[0];
     console.log(file);
     //post picture first
-    //await postPicture(file);
+
     fetch(ec2+"/image-upload", {method: "POST", body: file}).then(checkStatus).catch(function(e){console.log(e);});
     //post user info to database
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
