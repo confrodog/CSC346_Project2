@@ -642,9 +642,6 @@ function createAccount(){
 
     fetch(ec2+"/image-upload",
         {method: "POST",
-        headers: {
-            "Content-Type": "multipart/form-data"
-          },
         body: data})
         .then(checkStatus)
         .catch(function(e){
