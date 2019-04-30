@@ -2,12 +2,11 @@
     "use strict";
 const express = require("express");
 const mysql = require('mysql');
-const multer = require('multer');
 const app = express();
 app.use(express.static('public'));
 
 const DBinfo = require("./public/connection");
-const upload = multer({ dest: './uploads/' });//require("./services/file-upload");
+const upload = require("./services/file-upload");
 const singleUpload = upload.single("image");
 
 // allows us to access prAameters easily
@@ -95,17 +94,15 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', upload.single('avatar'), (req, res) => {
-    if (req.file) {
-        console.log('Uploading file...');
-        var filename = req.file.filename;
-        var uploadStatus = 'File Uploaded Successfully';
-    } else {
-        console.log('No File Uploaded');
-        var filename = 'FILE NOT UPLOADED';
-        var uploadStatus = 'File Upload Failed';
-    }
-});
+app.post('/image-upload', function(req, res) {
+	singleUpload(req, res, function(err, some) {
+	  if (err) {
+		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+	  }
+  
+	  return res.json({'imageUrl': req.file.location});
+	});
+  })
 
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
