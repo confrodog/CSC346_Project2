@@ -95,13 +95,13 @@ app.post('/update', jsonParser, function(req,res) {
 
 app.post('/image-upload', singleUpload,function(req, res) {
 	console.log(req.file);
-	// singleUpload(req, res, function(err, some) {
-	//   if (err) {
-	// 	return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
-	//   }
-	//   console.log(req.file); 
-	//   return res.json({'imageUrl': req.file.location});
-	// });
+	singleUpload(req, res, function(err, some) {
+	  if (err) {
+		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+	  }
+	  console.log(req.file); 
+	  return res.json({'imageUrl': req.file.location});
+	});
   })
 
 app.get('/signin', function (req, res) {
