@@ -639,7 +639,17 @@ function createAccount(){
     console.log(file);
     //post picture first
 
-    fetch(ec2+"/image-upload", {method: "POST", body: file}).then(checkStatus).catch(function(e){console.log(e);});
+    fetch(ec2+"/image-upload",
+        {method: "POST",
+        headers: {
+            "Content-Type": "multipart/form-data"
+          },
+        body: file})
+        .then(checkStatus)
+        .catch(function(e){
+            console.log(e);
+        });
+
     //post user info to database
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
