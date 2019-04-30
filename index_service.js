@@ -7,7 +7,7 @@ app.use(express.static('public'));
 
 const DBinfo = require("./public/connection");
 const upload = require("./services/file-upload");
-const singleUpload = upload.single("avatar");
+const singleUpload = upload.single('avatar');
 
 // allows us to access prAameters easily
 const bodyParser = require("body-parser");
@@ -94,12 +94,12 @@ app.post('/update', jsonParser, function(req,res) {
 })
 
 app.post('/image-upload',function(req, res) {
-	console.log(req.files.file);
+	console.log(req.file);
 	singleUpload(req, res, function(err, some) {
 	  if (err) {
 		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
 	  }
-  
+	  console.log(req.file); 
 	  return res.json({'imageUrl': req.file.location});
 	});
   })
