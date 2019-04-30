@@ -659,13 +659,13 @@ function createAccount(){
 			console.log(error);
            });
            
-    fetch(ec2+"/image-upload",
-        {method: "POST",
-        body: data})
-        .then(checkStatus)
-        .catch(function(e){
-            console.log(e);
-        });
+    // fetch(ec2+"/image-upload",
+    //     {method: "POST",
+    //     body: data})
+    //     .then(checkStatus)
+    //     .catch(function(e){
+    //         console.log(e);
+    //     });
 
     
 
