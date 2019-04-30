@@ -93,8 +93,8 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', jsonParser,function(req, res) {
-	console.log(req.file);
+app.post('/image-upload',function(req, res) {
+	console.log(req.files.file);
 	singleUpload(req, res, function(err, some) {
 	  if (err) {
 		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
