@@ -7,7 +7,7 @@ app.use(express.static('public'));
 
 const DBinfo = require("./public/connection");
 const upload = require("./services/file-upload");
-const singleUpload = upload.single("image");
+const singleUpload = upload.single("avatar");
 
 // allows us to access prAameters easily
 const bodyParser = require("body-parser");
@@ -94,7 +94,7 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', function(req, res) {
+app.post('/image-upload', jsonParser,function(req, res) {
 	console.log(req.body);
 	singleUpload(req, res, function(err, some) {
 	  if (err) {
