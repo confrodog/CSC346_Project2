@@ -648,7 +648,7 @@ async function createAccount(){
 	};
 
 	var url = ec2;
-	fetch(url, fetchOptions)
+	await fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
             let jsonResponse = JSON.parse(responseText);
