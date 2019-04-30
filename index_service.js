@@ -7,7 +7,7 @@ app.use(express.static('public'));
 
 const DBinfo = require("./public/connection");
 const upload = require("./services/file-upload");
-const singleUpload = upload.single("image");
+const singleUpload = upload.single('avatar');
 
 // allows us to access prAameters easily
 const bodyParser = require("body-parser");
@@ -27,7 +27,6 @@ app.use(function(req, res, next) {
 app.post('/', jsonParser, function (req, res) {
 
     var jsonObj = req.body;
-    console.log(jsonObj);
 	var username = jsonObj.username;
 	var password = jsonObj.password;
 	var screen_name = jsonObj.screen_name;
@@ -94,15 +93,16 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', function(req, res) {
+app.post('/image-upload', singleUpload,function(req, res) {
 	console.log(req.file);
-	singleUpload(req, res, function(err, some) {
-	  if (err) {
-		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
-	  }
-  
-	  return res.json({'imageUrl': req.file.location});
-	});
+	return res.json({'imageUrl': req.file.location});
+	// singleUpload(req, res, function(err, some) {
+	//   if (err) {
+	// 	return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+	//   }
+	//   console.log(req.file); 
+	//   return res.json({'imageUrl': req.file.location});
+	// });
   })
 
 app.get('/signin', function (req, res) {

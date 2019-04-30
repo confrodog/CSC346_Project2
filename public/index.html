@@ -15,14 +15,16 @@
             <h1>Welcome to Black Jack!</h1>
         </div>
         <div id="login">
-            <fieldset>
-                <legend>Create Account</legend>
-                Username:<input type="text" id="createUser"><br>
-                Password:<input type="password" id="createPW"><br>
-                Screen Name: <input type="text" id="createScreen"><br>
-                Profile Picture: <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
-                <button id="createAccountButton">Submit</button>
-            </fieldset>
+            <form action="/image-upload" method="POST" enctype="multipart/form-data">
+                <fieldset >
+                    <legend>Create Account</legend>
+                    Username:<input type="text" id="createUser"><br>
+                    Password:<input type="password" id="createPW"><br>
+                    Screen Name: <input type="text" id="createScreen"><br>
+                    Profile Picture: <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                    <button id="createAccountButton">Submit</button>
+                </fieldset>
+            </form>
             <fieldset>
                 <legend>Sign-in</legend>
                 Username:<input type="text" id="signUser"><br>

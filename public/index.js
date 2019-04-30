@@ -638,21 +638,18 @@ function createAccount(){
     var file = document.getElementById("avatar").files[0];
     console.log(file);
     //post picture first
-    //await postPicture(file);
-    fetch(ec2+"/image-upload", {method: "POST", body: file}).then(checkStatus).catch(function(e){console.log(e);});
+    let data = new FormData(file);
     //post user info to database
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
     const fetchOptions = {
-		method : 'POST',
-		headers : {
-			'Accept': 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		body : JSON.stringify(userJSON)
-	};
-
-	var url = ec2;
-	fetch(url, fetchOptions)
+        method : 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(userJSON)
+    };
+	fetch(ec2, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
             let jsonResponse = JSON.parse(responseText);
@@ -660,7 +657,19 @@ function createAccount(){
 		})
 		.catch(function(error) {
 			console.log(error);
-   		});
+           });
+           
+    // fetch(ec2+"/image-upload",
+    //     {method: "POST",
+    //     body: data})
+    //     .then(checkStatus)
+    //     .catch(function(e){
+    //         console.log(e);
+    //     });
+
+    
+
+	
 }
 
 /* signinAccount will request json objects in order to find the
