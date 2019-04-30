@@ -639,7 +639,26 @@ function createAccount(){
     console.log(file);
     //post picture first
     let data = new FormData(file);
-
+    //post user info to database
+    var userJSON = {"username":user,"password":pw, "screen_name":screen};
+    const fetchOptions = {
+        method : 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(userJSON)
+    };
+	fetch(ec2, fetchOptions)
+		.then(checkStatus)
+		.then(function(responseText) {
+            let jsonResponse = JSON.parse(responseText);
+            buildPlayScreen(jsonResponse.username, jsonResponse.money);
+		})
+		.catch(function(error) {
+			console.log(error);
+           });
+           
     fetch(ec2+"/image-upload",
         {method: "POST",
         body: data})
@@ -648,27 +667,9 @@ function createAccount(){
             console.log(e);
         });
 
-    //post user info to database
-    var userJSON = {"username":user,"password":pw, "screen_name":screen};
-    const fetchOptions = {
-		method : 'POST',
-		headers : {
-			'Accept': 'application/json',
-			'Content-Type' : 'application/json'
-		},
-		body : JSON.stringify(userJSON)
-	};
+    
 
-	var url = ec2;
-	fetch(url, fetchOptions)
-		.then(checkStatus)
-		.then(function(responseText) {
-            let jsonResponse = JSON.parse(responseText);
-            buildPlayScreen(jsonResponse.username, jsonResponse.money);
-		})
-		.catch(function(error) {
-			console.log(error);
-   		});
+	
 }
 
 /* signinAccount will request json objects in order to find the
