@@ -27,7 +27,6 @@ app.use(function(req, res, next) {
 app.post('/', jsonParser, function (req, res) {
 
     var jsonObj = req.body;
-    console.log(jsonObj);
 	var username = jsonObj.username;
 	var password = jsonObj.password;
 	var screen_name = jsonObj.screen_name;
@@ -95,7 +94,7 @@ app.post('/update', jsonParser, function(req,res) {
 })
 
 app.post('/image-upload', jsonParser,function(req, res) {
-	console.log(req.body);
+	console.log(req.file);
 	singleUpload(req, res, function(err, some) {
 	  if (err) {
 		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
