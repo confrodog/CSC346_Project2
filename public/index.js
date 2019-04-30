@@ -631,10 +631,22 @@ function createAccount(){
 
 */
 
-async function createAccount(){
+function createAccount(){
     var user = document.getElementById("createUser").value;
     var pw = document.getElementById("createPW").value;
     var screen = document.getElementById("createScreen").value;
+    var file = document.getElementById("avatar").files[0];
+    console.log(file);
+    //post picture first
+    let data = new FormData(file);
+
+    fetch(ec2+"/image-upload",
+        {method: "POST",
+        body: data})
+        .then(checkStatus)
+        .catch(function(e){
+            console.log(e);
+        });
 
     //post user info to database
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
@@ -648,7 +660,7 @@ async function createAccount(){
 	};
 
 	var url = ec2;
-	await fetch(url, fetchOptions)
+	fetch(url, fetchOptions)
 		.then(checkStatus)
 		.then(function(responseText) {
             let jsonResponse = JSON.parse(responseText);
