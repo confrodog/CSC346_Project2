@@ -640,13 +640,16 @@ function createAccount(){
     //post picture first
     let data = new FormData(file);
 
-    fetch(ec2+"/image-upload",
-        {method: "POST",
-        body: data})
-        .then(checkStatus)
-        .catch(function(e){
-            console.log(e);
-        });
+    // fetch(ec2+"/image-upload",
+    //     {method: "POST",
+    //     headers: {
+    //         "Content-Type": "multipart/form-data"
+    //       },
+    //     body: data})
+    //     .then(checkStatus)
+    //     .catch(function(e){
+    //         console.log(e);
+    //     });
 
     //post user info to database
     var userJSON = {"username":user,"password":pw, "screen_name":screen};
