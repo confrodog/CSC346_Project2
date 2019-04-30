@@ -40,7 +40,7 @@ app.post('/', jsonParser, function (req, res) {
 		debug: "true"
 	});
 
-	var query = "INSERT INTO accounts (username, password, screen_name, money) VALUES ('"
+	var query = "INSERT INTO accounts (username, password, screen_name, money) VALUES ('" 
 				+ username + "', '" + password + "', '" + screen_name + "', 500);";
 	// var query = "INSERT INTO accounts (username, password, screen_name, money)"
 	// 			+ " SELECT * FROM (SELECT '" + username + "', '" + password + "', "
@@ -66,7 +66,7 @@ app.post('/', jsonParser, function (req, res) {
 
 //for updating money
 app.post('/update', jsonParser, function(req,res) {
-
+	
 	console.log("entered update on server");
 	var jsonObj = req.body;
 	var user = jsonObj.username;
@@ -94,22 +94,23 @@ app.post('/update', jsonParser, function(req,res) {
 	})
 })
 
-app.post('/image-upload', function(req, res){
-	singleUpload(req, res, function(err){
-
-		if(err){
-			return res.status(404).send(err)
-		}
-		return res.json({'imageUrl': req.file.location});
+app.post('/image-upload', function(req, res) {
+	console.log(req.file);
+	singleUpload(req, res, function(err, some) {
+	  if (err) {
+		return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+	  }
+  
+	  return res.json({'imageUrl': req.file.location});
 	});
-});
+  })
 
 app.get('/signin', function (req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
-
+	
 	var user = req.query.user;
 	var pass = req.query.pass;
-
+	
 	var query = "SELECT * FROM accounts WHERE username = '" + user + "' AND password = '" + pass + "'";
 
 	var conn = mysql.createConnection({
