@@ -638,13 +638,14 @@ function createAccount(){
     var file = document.getElementById("avatar").files[0];
     console.log(file);
     //post picture first
+    let data = new FormData(file);
 
     fetch(ec2+"/image-upload",
         {method: "POST",
         headers: {
             "Content-Type": "multipart/form-data"
           },
-        body: file})
+        body: data})
         .then(checkStatus)
         .catch(function(e){
             console.log(e);
